@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!confirm("Confirmer cette action ?")) return;
         
         let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${params.get("row")}`;
-        if (newDate) url += `&rdv=${encodeURIComponent(newDate)}`;
+        if (newDate) {
+            url += `&rdv=${encodeURIComponent(newDate)}&statutRDV=Reprogrammer`;
+        }
         
         fetch(url)
             .then(response => response.text())
