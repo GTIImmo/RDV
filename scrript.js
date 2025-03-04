@@ -1,8 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
+    console.log("🔍 Paramètres URL détectés :", params.toString());
     
     function getParamValue(key) {
-        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
+        if (!params.has(key)) return "Non renseigné";
+        let value = params.get(key);
+        try {
+            return decodeURIComponent(value.replace(/\+/g, ' '));
+        } catch (e) {
+            console.error("❌ Erreur de décodage :", e);
+            return value;
+        }
     }
 
     function updateGoogleSheet(action, newDate = "") {
@@ -20,10 +28,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("❌ Erreur :", error));
     }
 
-    document.getElementById("nom").textContent += getParamValue("nom");
-    document.getElementById("prenom").textContent += getParamValue("prenom");
-    document.getElementById("rdv").textContent += getParamValue("rdv");
-    document.getElementById("statutRDV").textContent += getParamValue("statutRDV");
+    document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
+    document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
+    document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
+    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
