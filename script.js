@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
         
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${params.get("row")}`;
         if (newDate) {
-            url += `&rdv=${encodeURIComponent(newDate)}&statutRDV=Reprogrammer`;
+            url += `&rdv=${encodeURIComponent(newDate)}`;
         }
         
         fetch(url)
