@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(url)
             .then(response => response.text())
             .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
                 alert(result);
                 location.reload();
             })
