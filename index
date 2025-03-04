@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des RDV - GTI Immobilier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>📅 Gestion du Rendez-vous</h1>
+        <div class="lead-info">
+            <p id="nom"></p>
+            <p id="prenom"></p>
+            <p id="rdv"></p>
+            <p id="statutRDV"></p>
+        </div>
+
+        <div class="buttons">
+            <button id="confirmerBtn" class="btn btn-success">✅ Confirmer RDV</button>
+            <button id="modifierBtn" class="btn btn-warning">🔄 Modifier RDV</button>
+            <button id="annulerBtn" class="btn btn-danger">❌ Annuler RDV</button>
+        </div>
+
+        <div id="modifierSection" style="display: none; margin-top: 20px;">
+            <label for="nouvelleDate">🗓️ Nouvelle date :</label>
+            <input type="datetime-local" id="nouvelleDate">
+            <button id="validerModifBtn" class="btn btn-primary">💾 Sauvegarder</button>
+        </div>
+    </div>
+
+    <script src="rdv.js"></script>
+</body>
+</html>
