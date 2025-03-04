@@ -1,14 +1,14 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
     
     function getParamValue(key) {
-        return params.has(key) ? decodeURIComponent(params.get(key)) : "Non renseigné";
+        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
     }
 
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
         
-        let url = `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=${action}&row=${params.get("row")}`;
+        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${params.get("row")}`;
         if (newDate) url += `&rdv=${encodeURIComponent(newDate)}`;
         
         fetch(url)
@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("❌ Erreur :", error));
     }
 
-    document.getElementById("nom").textContent = `👤 Nom : ${getParamValue("nom")}`;
-    document.getElementById("prenom").textContent = `🆔 Prénom : ${getParamValue("prenom")}`;
-    document.getElementById("rdv").textContent = `📅 Date RDV : ${getParamValue("rdv")}`;
-    document.getElementById("statutRDV").textContent = `📆 Statut : ${getParamValue("statutRDV")}`;
+    document.getElementById("nom").textContent += getParamValue("nom");
+    document.getElementById("prenom").textContent += getParamValue("prenom");
+    document.getElementById("rdv").textContent += getParamValue("rdv");
+    document.getElementById("statutRDV").textContent += getParamValue("statutRDV");
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
