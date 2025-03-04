@@ -1,0 +1,136 @@
+/* 🌟 Général */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 🌟 Bandeau du logo */
+.header {
+    background-color: #333;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.logo {
+    max-width: 200px;
+}
+
+/* 📋 Conteneur principal */
+.container {
+    max-width: 700px;
+    background-color: white;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* 📋 Titre principal */
+h1 {
+    font-size: 22px;
+    color: #F77F00;
+    text-align: center;
+}
+
+/* 📋 Infos du lead */
+.lead-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.lead-info p {
+    font-size: 16px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* 🎨 Boutons */
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.btn {
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    width: 48%;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* ✅ Bouton "Confirmer" */
+.btn-success {
+    background-color: #00C853;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #009624;
+}
+
+/* 🔄 Bouton "Modifier" */
+.btn-warning {
+    background-color: #F77F00;
+    color: white;
+}
+
+.btn-warning:hover {
+    background-color: #D96400;
+}
+
+/* ❌ Bouton "Annuler" */
+.btn-danger {
+    background-color: #D90429;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #B10221;
+}
+
+/* 📅 Section de modification */
+#modifierSection {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+input[type="datetime-local"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: #457b9d;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #33658a;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+    .lead-info {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
