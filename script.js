@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
-    document.getElementById("RDV").textContent += ` ${getParamValue("RDV")}`;
+    document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
