@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateGoogleSheet() {
         if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
             return;
         }
 
@@ -46,11 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
-    document.getElementById("reprogrammerBtn").addEventListener("click", function() {
-        selectedAction = "reprogrammer";
-        alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-    });
-    
     document.getElementById("annulerBtn").addEventListener("click", function() {
         selectedAction = "annuler";
         alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
@@ -58,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("appelerBtn").addEventListener("click", function() {
         if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
             return;
         }
         alert(`📞 Composez ce numéro : ${telephone}`);
@@ -67,14 +62,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("envoyerMailBtn").addEventListener("click", function() {
         if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
             return;
         }
         if (email !== "Non renseigné" && email.includes("@")) {
-            let subject = selectedAction === "reprogrammer" ? "Rendez-vous à reprogrammer" : "Rendez-vous GTI Immobilier";
-            let body = selectedAction === "reprogrammer" 
-                ? "Bonjour,\n\nVotre rendez-vous doit être reprogrammé. Merci de nous contacter pour convenir d'une nouvelle date.\n\nCordialement," 
-                : "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
+            let subject = "Rendez-vous GTI Immobilier";
+            let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
             let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(mailtoLink, "_blank");
             updateGoogleSheet();
