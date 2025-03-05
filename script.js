@@ -16,19 +16,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let rowParam = params.get("row");
         if (!rowParam) {
-            alert("❌ Erreur : Impossible d'envoyer la modification !");
+            console.error("❌ ERREUR : row est manquant dans l'URL !");
+            alert("❌ Erreur : Impossible d'envoyer la modification car row est manquant !");
             return;
         }
 
         let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${rowParam}`;
         
         if (newDate) {
-            url += `&rdv=${encodeURIComponent(formatDateForSheet(newDate))}`;
+            let formattedDate = formatDateForSheet(newDate);
+            url += `&rdv=${encodeURIComponent(formattedDate)}`;
         }
+
+        console.log("📡 URL envoyée : " + url);
 
         fetch(url)
             .then(response => response.text())
             .then(result => {
+                console.log("✅ Réponse du serveur : " + result);
                 alert(result);
                 location.reload();
             })
@@ -39,16 +44,15 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-    document.getElementById("modification").textContent += ` ${getParamValue("modification")}`;
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
-
+    
     document.getElementById("modifierBtn").addEventListener("click", function() {
         document.getElementById("modifierSection").style.display = "block";
     });
-
+    
     document.getElementById("validerModifBtn").addEventListener("click", function() {
         let nouvelleDate = document.getElementById("nouvelleDate").value;
         if (!nouvelleDate) {
@@ -57,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         updateGoogleSheet("modifier", nouvelleDate);
     });
-
+    
     document.getElementById("annulerBtn").addEventListener("click", function() {
         updateGoogleSheet("annuler");
     });
