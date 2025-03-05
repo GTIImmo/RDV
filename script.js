@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (newDate) {
             let formattedDate = formatDateForSheet(newDate);
-            url += `&RDV=${encodeURIComponent(formattedDate)}`;
+            url += `&rdv=${encodeURIComponent(formattedDate)}`;
         }
 
         console.log("📡 URL envoyée : " + url);
