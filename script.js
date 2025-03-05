@@ -5,55 +5,16 @@ document.addEventListener("DOMContentLoaded", function() {
         return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
     }
 
-    function formatDateForSheet(dateString) {
-    let date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
-    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-    }
-
-    function updateGoogleSheet(action, newDate = "") {
-        if (!confirm("Confirmer cette action ?")) return;
-
-        let rowParam = params.get("row");
-        if (!rowParam) {
-            console.error("❌ ERREUR : row est manquant dans l'URL !");
-            alert("❌ Erreur : Impossible d'envoyer la modification car row est manquant !");
-            return;
-        }
-
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec/exec?action=${action}&row=${rowParam}`;
-        
-        if (newDate) {
-            let formattedDate = formatDateForSheet(newDate);
-            url += `&RDV=${encodeURIComponent(formattedDate)}`;
-        }
-
-        console.log("📡 URL envoyée : " + url);
-
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                console.log("✅ Réponse du serveur : " + result);
-                alert(result);
-                location.reload();
-            })
-            .catch(error => console.error("❌ Erreur : ", error));
+    function formatPhoneNumber(number) {
+        if (number === "Non renseigné" || number.length === 0) return "Non renseigné";
+        return number.length === 9 ? "0" + number : number; // Ajoute le 0 devant si le numéro est à 9 chiffres
     }
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-    
-    function formatPhoneNumber(number) {
-        if (!number || number === "Non renseigné") return "Non renseigné";
-        let cleaned = number.replace(/[^0-9]/g, "");
-        if (cleaned.length === 9) {
-            return "0" + cleaned; // Ajouter un zéro devant si le numéro fait 9 chiffres
-        }
-        return cleaned;
-    }
-    
+
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
     let phoneElement = document.getElementById("telephone");
