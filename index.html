@@ -15,29 +15,25 @@
 
     <div class="container">
         <h1>📅 Gestion du Rendez-vous</h1>
-        
         <div class="lead-info">
-            <p id="nom"><strong>👤 Nom :</strong> </p>
-            <p id="prenom"><strong>🆔 Prénom :</strong> </p>
-            <p id="rdv"><strong>📅 Date de RDV :</strong> </p>
-            <p id="statutRDV"><strong>📆 Statut :</strong> </p>
+            <p id="nom">👤 Nom : </p>
+            <p id="prenom">🆔 Prénom : </p>
+            <p id="rdv">📅 Date de RDV : </p>
+            <p id="statutRDV">📆 Statut : </p>
+            <p id="telephone" style="display: none;">📞 Téléphone : <span id="phoneNumber"></span></p>
         </div>
 
-        <h2>🛠️ Sélectionnez une action</h2>
-        <p>Avant de contacter le client, choisissez une action :</p>
-        
-        <div class="buttons action-buttons">
+        <div class="buttons">
             <button id="confirmerBtn" class="btn btn-success">✅ Confirmer RDV</button>
-            <button id="reprogrammerBtn" class="btn btn-warning">🔄 Reprogrammer RDV</button>
+            <button id="modifierBtn" class="btn btn-warning">🔄 Modifier RDV</button>
             <button id="annulerBtn" class="btn btn-danger">❌ Annuler RDV</button>
+            <button id="appelerBtn" class="btn btn-info">📞 Appeler</button>
         </div>
 
-        <h2>📞 Contactez le client</h2>
-        <p>Après avoir choisi une action, contactez le client pour finaliser la mise à jour.</p>
-        
-        <div class="buttons contact-buttons">
-            <button id="appelerBtn" class="btn btn-info">📞 Appeler</button>
-            <button id="envoyerMailBtn" class="btn btn-primary">✉️ Envoyer Email</button>
+        <div id="modifierSection" style="display: none; margin-top: 20px;">
+            <label for="nouvelleDate">🗓️ Nouvelle date :</label>
+            <input type="datetime-local" id="nouvelleDate">
+            <button id="validerModifBtn" class="btn btn-primary">💾 Sauvegarder</button>
         </div>
     </div>
 
