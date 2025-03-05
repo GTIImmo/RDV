@@ -46,15 +46,10 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
-    let reprogrammerBtn = document.getElementById("reprogrammerBtn");
-    if (reprogrammerBtn) {
-        reprogrammerBtn.addEventListener("click", function() {
-            selectedAction = "reprogrammer";
-            alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-        });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Reprogrammer' est introuvable !");
-    }
+    document.getElementById("reprogrammerBtn").addEventListener("click", function() {
+        selectedAction = "reprogrammer";
+        alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+    });
     
     document.getElementById("annulerBtn").addEventListener("click", function() {
         selectedAction = "annuler";
