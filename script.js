@@ -16,11 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
         
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;
-        if (newDate) {
-            url += `&rdv=${encodeURIComponent(newDate)}`;
-        }
-        
+        let url = https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;    
         fetch(url)
             .then(response => response.text())
             .then(result => {
@@ -38,19 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
-    });
-    
-    document.getElementById("modifierBtn").addEventListener("click", function() {
-        document.getElementById("modifierSection").style.display = "block";
-    });
-    
-    document.getElementById("validerModifBtn").addEventListener("click", function() {
-        let nouvelleDate = document.getElementById("nouvelleDate").value;
-        if (!nouvelleDate) {
-            alert("Veuillez entrer une nouvelle date.");
-            return;
-        }
-        updateGoogleSheet("modifier", nouvelleDate);
     });
     
     document.getElementById("annulerBtn").addEventListener("click", function() {
