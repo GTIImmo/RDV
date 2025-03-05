@@ -41,38 +41,58 @@ document.addEventListener("DOMContentLoaded", function() {
     let telephone = getParamValue("telephone");
     let email = getParamValue("email");
     
-    document.getElementById("confirmerBtn").addEventListener("click", function() {
-        selectedAction = "confirmer";
-        alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-    });
-    
-    document.getElementById("annulerBtn").addEventListener("click", function() {
-        selectedAction = "annuler";
-        alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-    });
+    let confirmerBtn = document.getElementById("confirmerBtn");
+    if (confirmerBtn) {
+        confirmerBtn.addEventListener("click", function() {
+            selectedAction = "confirmer";
+            alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Confirmer' est introuvable !");
+    }
 
-    document.getElementById("appelerBtn").addEventListener("click", function() {
-        if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
-            return;
-        }
-        alert(`📞 Composez ce numéro : ${telephone}`);
-        updateGoogleSheet();
-    });
+    let annulerBtn = document.getElementById("annulerBtn");
+    if (annulerBtn) {
+        annulerBtn.addEventListener("click", function() {
+            selectedAction = "annuler";
+            alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Annuler' est introuvable !");
+    }
 
-    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
-        if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
-            return;
-        }
-        if (email !== "Non renseigné" && email.includes("@")) {
-            let subject = "Rendez-vous GTI Immobilier";
-            let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
-            let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(mailtoLink, "_blank");
+    let appelerBtn = document.getElementById("appelerBtn");
+    if (appelerBtn) {
+        appelerBtn.addEventListener("click", function() {
+            if (!selectedAction) {
+                alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
+                return;
+            }
+            alert(`📞 Composez ce numéro : ${telephone}`);
             updateGoogleSheet();
-        } else {
-            alert("📧 Adresse e-mail non valide ou indisponible");
-        }
-    });
+        });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Appeler' est introuvable !");
+    }
+
+    let envoyerMailBtn = document.getElementById("envoyerMailBtn");
+    if (envoyerMailBtn) {
+        envoyerMailBtn.addEventListener("click", function() {
+            if (!selectedAction) {
+                alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
+                return;
+            }
+            if (email !== "Non renseigné" && email.includes("@")) {
+                let subject = "Rendez-vous GTI Immobilier";
+                let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
+                let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.open(mailtoLink, "_blank");
+                updateGoogleSheet();
+            } else {
+                alert("📧 Adresse e-mail non valide ou indisponible");
+            }
+        });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Envoyer Email' est introuvable !");
+    }
 });
