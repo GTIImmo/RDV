@@ -1,7 +1,8 @@
+
 document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
     console.log("🔍 Paramètres URL détectés :", params.toString());
-    
+
     function getParamValue(key) {
         if (!params.has(key)) return "Non renseigné";
         let value = params.get(key);
@@ -13,10 +14,11 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function updateGoogleSheet(action, newDate = "") {
+    function updateGoogleSheet(action) {
         if (!confirm("Confirmer cette action ?")) return;
         
-        let url = https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;    
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;
+        
         fetch(url)
             .then(response => response.text())
             .then(result => {
@@ -27,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("❌ Erreur :", error));
     }
 
+    console.log("📌 Mise à jour des éléments HTML avec les valeurs récupérées :");
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
@@ -35,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
-    
+
     document.getElementById("annulerBtn").addEventListener("click", function() {
         updateGoogleSheet("annuler");
     });
