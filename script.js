@@ -44,6 +44,16 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
+    
+    let numeroLead = getParamValue("telephone");
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            window.location.href = `tel:${numeroLead}`;
+        } else {
+            document.getElementById("telephone").style.display = "block";
+            document.getElementById("numeroLead").textContent = numeroLead;
+        }
+    });
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
