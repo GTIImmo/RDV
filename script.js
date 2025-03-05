@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", function() {
         return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
 
+    function formatPhoneNumber(phone) {
+        if (phone.length === 9) {
+            return '0' + phone;
+        }
+        return phone;
+    }
+
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
 
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
     
-    let numeroLead = getParamValue("telephone");
+    let numeroLead = formatPhoneNumber(getParamValue("telephone"));
     document.getElementById("appelerBtn").addEventListener("click", function() {
         if (/Mobi|Android/i.test(navigator.userAgent)) {
             window.location.href = `tel:${numeroLead}`;
