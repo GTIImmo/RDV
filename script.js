@@ -46,6 +46,15 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
     
+    function formatPhoneNumber(number) {
+        if (!number || number === "Non renseigné") return "Non renseigné";
+        let cleaned = number.replace(/[^0-9]/g, "");
+        if (cleaned.length === 9) {
+            return "0" + cleaned; // Ajouter un zéro devant si le numéro fait 9 chiffres
+        }
+        return cleaned;
+    }
+    
     let telephone = getParamValue("telephone");
     let email = getParamValue("email");
     let phoneElement = document.getElementById("telephone");
