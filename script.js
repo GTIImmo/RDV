@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateGoogleSheet() {
         if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
+            alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Reprogrammer).");
             return;
         }
 
@@ -47,39 +47,41 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedAction = "confirmer";
             alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
         });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Confirmer' est introuvable !");
     }
-
+    
+    let reprogrammerBtn = document.getElementById("reprogrammerBtn");
+    if (reprogrammerBtn) {
+        reprogrammerBtn.addEventListener("click", function() {
+            selectedAction = "reprogrammer";
+            alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    }
+    
     let annulerBtn = document.getElementById("annulerBtn");
     if (annulerBtn) {
         annulerBtn.addEventListener("click", function() {
             selectedAction = "annuler";
             alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
         });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Annuler' est introuvable !");
     }
 
     let appelerBtn = document.getElementById("appelerBtn");
     if (appelerBtn) {
         appelerBtn.addEventListener("click", function() {
             if (!selectedAction) {
-                alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
+                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Reprogrammer).");
                 return;
             }
             alert(`📞 Composez ce numéro : ${telephone}`);
             updateGoogleSheet();
         });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Appeler' est introuvable !");
     }
 
     let envoyerMailBtn = document.getElementById("envoyerMailBtn");
     if (envoyerMailBtn) {
         envoyerMailBtn.addEventListener("click", function() {
             if (!selectedAction) {
-                alert("Veuillez d'abord choisir une action (Confirmer ou Annuler).");
+                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Reprogrammer).");
                 return;
             }
             if (email !== "Non renseigné" && email.includes("@")) {
@@ -92,7 +94,5 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("📧 Adresse e-mail non valide ou indisponible");
             }
         });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Envoyer Email' est introuvable !");
     }
 });
