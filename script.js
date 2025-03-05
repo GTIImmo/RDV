@@ -1,16 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
     let selectedAction = null; // Stocke l'action sélectionnée (confirmer, annuler, reprogrammer)
-    let newDate = ""; // Stocke la nouvelle date pour reprogrammation
 
     function getParamValue(key) {
         return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
-    }
-
-    function formatDateForSheet(dateString) {
-        let date = new Date(dateString);
-        if (isNaN(date.getTime())) return "";
-        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
 
     function updateGoogleSheet() {
@@ -28,11 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${selectedAction}&row=${rowParam}`;
         
-        if (selectedAction === "modifier" && newDate) {
-            let formattedDate = formatDateForSheet(newDate);
-            url += `&rdv=${encodeURIComponent(formattedDate)}`;
-        }
-
         console.log("📡 URL envoyée : " + url);
 
         fetch(url)
@@ -58,17 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
-    document.getElementById("modifierBtn").addEventListener("click", function() {
-        document.getElementById("modifierSection").style.display = "block";
-    });
-    
-    document.getElementById("validerModifBtn").addEventListener("click", function() {
-        newDate = document.getElementById("nouvelleDate").value;
-        if (!newDate) {
-            alert("Veuillez entrer une nouvelle date.");
-            return;
-        }
-        selectedAction = "modifier";
+    document.getElementById("reprogrammerBtn").addEventListener("click", function() {
+        selectedAction = "reprogrammer";
         alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
@@ -92,7 +71,11 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         if (email !== "Non renseigné" && email.includes("@")) {
-            let mailtoLink = `mailto:${email}?subject=Rendez-vous GTI Immobilier&body=Bonjour,%0A%0AJe vous contacte concernant votre rendez-vous.%0A%0AMerci`;
+            let subject = selectedAction === "reprogrammer" ? "Rendez-vous à reprogrammer" : "Rendez-vous GTI Immobilier";
+            let body = selectedAction === "reprogrammer" 
+                ? "Bonjour,\n\nVotre rendez-vous doit être reprogrammé. Merci de nous contacter pour convenir d'une nouvelle date.\n\nCordialement," 
+                : "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
+            let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(mailtoLink, "_blank");
             updateGoogleSheet(); // Envoie l'action après l'email
         } else {
