@@ -6,11 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function formatDateForSheet(dateString) {
-    let date = new Date(dateString);
-    if (isNaN(date.getTime())) return "";
-    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-}
-
+        let date = new Date(dateString);
+        if (isNaN(date.getTime())) return "";
+        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
 
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
@@ -22,10 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbwIEE9aQJIZgI8zslInIt_5ZZz1wl_IANeb2GNuXszLjB-a9WRWQFkT0AiAbzH6eXaH/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${rowParam}`;
         
         if (newDate) {
             let formattedDate = formatDateForSheet(newDate);
+            console.log("Nouvelle date formatée :", formattedDate);
             url += `&rdv=${encodeURIComponent(formattedDate)}`;
         }
 
@@ -46,16 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
     
-    function formatPhoneNumber(number) {
-        if (!number || number === "Non renseigné") return "Non renseigné";
-        let cleaned = number.replace(/[^0-9]/g, "");
-        if (cleaned.length === 9) {
-            return "0" + cleaned; // Ajouter un zéro devant si le numéro fait 9 chiffres
-        }
-        return cleaned;
-    }
-    
-    let telephone = formatPhoneNumber(getParamValue("telephone"));
+    let telephone = getParamValue("telephone");
     let email = getParamValue("email");
     let phoneElement = document.getElementById("telephone");
     let phoneNumberElement = document.getElementById("phoneNumber");
@@ -72,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     document.getElementById("validerModifBtn").addEventListener("click", function() {
         let nouvelleDate = document.getElementById("nouvelleDate").value;
+        console.log("Nouvelle date saisie :", nouvelleDate);
         if (!nouvelleDate) {
             alert("Veuillez entrer une nouvelle date.");
             return;
