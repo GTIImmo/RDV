@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let date = new Date(dateString);
     if (isNaN(date.getTime())) return "";
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-    }
+}
+
 
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
