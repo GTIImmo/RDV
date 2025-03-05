@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
     console.log("🔍 Paramètres URL détectés :", params.toString());
@@ -35,17 +34,23 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
+    // Gestion des événements des boutons
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
-    document.getElementById("appelerBtn").addEventListener("click", function() {
-    const phoneNumber = getParamValue("telephone");  // Récupération du numéro depuis l'URL
-    if (phoneNumber === "Non renseigné") {
-        alert("📵 Aucun numéro de téléphone disponible !");
-        return;
-    }
     });
 
     document.getElementById("annulerBtn").addEventListener("click", function() {
         updateGoogleSheet("annuler");
     });
+
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        const phoneNumber = getParamValue("telephone");  // Récupération du numéro depuis l'URL
+        if (phoneNumber === "Non renseigné") {
+            alert("📵 Aucun numéro de téléphone disponible !");
+            return;
+        }
+        console.log("📞 Appel vers :", phoneNumber);
+        window.location.href = `tel:${phoneNumber}`;  // Ouvre l'application d'appel
+    });
+
 });
