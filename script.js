@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function formatDateForSheet(dateString) {
-        let date = new Date(dateString);
-        if (isNaN(date.getTime())) return "";
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    let date = new Date(dateString);
+    if (isNaN(date.getTime())) return "";
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
 
     function updateGoogleSheet(action, newDate = "") {
