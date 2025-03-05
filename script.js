@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
+    let selectedAction = null; // Stocke l'action sélectionnée (confirmer, annuler, reprogrammer)
+    let newDate = ""; // Stocke la nouvelle date pour reprogrammation
 
     function getParamValue(key) {
         return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
@@ -8,18 +10,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function formatDateForSheet(dateString) {
         let date = new Date(dateString);
         if (isNaN(date.getTime())) return "";
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
 
-    function formatPhoneNumber(phone) {
-        if (phone.length === 9) {
-            return '0' + phone;
+    function updateGoogleSheet() {
+        if (!selectedAction) {
+            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            return;
         }
-        return phone;
-    }
-
-    function updateGoogleSheet(action, newDate = "") {
-        if (!confirm("Confirmer cette action ?")) return;
 
         let rowParam = params.get("row");
         if (!rowParam) {
@@ -28,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${selectedAction}&row=${rowParam}`;
         
-        if (newDate) {
+        if (selectedAction === "modifier" && newDate) {
             let formattedDate = formatDateForSheet(newDate);
             url += `&rdv=${encodeURIComponent(formattedDate)}`;
         }
@@ -42,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(result => {
                 console.log("✅ Réponse du serveur : " + result);
                 alert(result);
-                document.getElementById("notificationSection").style.display = "block";
+                location.reload();
             })
             .catch(error => console.error("❌ Erreur : ", error));
     }
@@ -52,50 +50,53 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
     
-    let numeroLead = formatPhoneNumber(getParamValue("telephone"));
-    let emailLead = getParamValue("email");
-    let nomLead = getParamValue("nom");
-    let prenomLead = getParamValue("prenom");
-    let dateRdv = getParamValue("rdv");
-
-    function sendEmail() {
-        let subject = "";
-        let body = "";
-        
-        if (statutAction === "confirmer") {
-            subject = `Confirmation de votre rendez-vous`;
-            body = `Bonjour ${prenomLead},%0D%0A%0D%0AJe vous confirme votre rendez-vous prévu le ${dateRdv}.%0D%0A%0D%0AÀ très bientôt,%0D%0AL'équipe GTI Immobilier`;
-        } else if (statutAction === "modifier") {
-            subject = `Reprogrammation de votre rendez-vous`;
-            body = `Bonjour ${prenomLead},%0D%0A%0D%0AVotre rendez-vous a été reprogrammé. Nous reviendrons vers vous pour une nouvelle date.%0D%0A%0D%0ACordialement,%0D%0AL'équipe GTI Immobilier`;
-        } else if (statutAction === "annuler") {
-            subject = `Annulation de votre rendez-vous`;
-            body = `Bonjour ${prenomLead},%0D%0A%0D%0ANous sommes désolés de vous informer que votre rendez-vous du ${dateRdv} a été annulé.%0D%0A%0D%0AN'hésitez pas à nous recontacter pour fixer un autre rendez-vous.%0D%0A%0D%0ACordialement,%0D%0AL'équipe GTI Immobilier`;
-        }
-        
-        window.location.href = `mailto:${emailLead}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
-
-    function callLead() {
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-            window.location.href = `tel:${numeroLead}`;
-        } else {
-            alert(`📞 Numéro du lead : ${numeroLead}`);
-        }
-    }
-
+    let telephone = getParamValue("telephone");
+    let email = getParamValue("email");
+    
     document.getElementById("confirmerBtn").addEventListener("click", function() {
-        updateGoogleSheet("confirmer");
+        selectedAction = "confirmer";
+        alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
     document.getElementById("modifierBtn").addEventListener("click", function() {
-        updateGoogleSheet("modifier");
+        document.getElementById("modifierSection").style.display = "block";
+    });
+    
+    document.getElementById("validerModifBtn").addEventListener("click", function() {
+        newDate = document.getElementById("nouvelleDate").value;
+        if (!newDate) {
+            alert("Veuillez entrer une nouvelle date.");
+            return;
+        }
+        selectedAction = "modifier";
+        alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
     document.getElementById("annulerBtn").addEventListener("click", function() {
-        updateGoogleSheet("annuler");
+        selectedAction = "annuler";
+        alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
-    
-    document.getElementById("emailBtn").addEventListener("click", sendEmail);
-    document.getElementById("appelerBtn").addEventListener("click", callLead);
+
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (!selectedAction) {
+            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            return;
+        }
+        alert(`📞 Composez ce numéro : ${telephone}`);
+        updateGoogleSheet(); // Envoie l'action après l'appel
+    });
+
+    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
+        if (!selectedAction) {
+            alert("Veuillez d'abord choisir une action (Confirmer, Annuler, Reprogrammer).");
+            return;
+        }
+        if (email !== "Non renseigné" && email.includes("@")) {
+            let mailtoLink = `mailto:${email}?subject=Rendez-vous GTI Immobilier&body=Bonjour,%0A%0AJe vous contacte concernant votre rendez-vous.%0A%0AMerci`;
+            window.open(mailtoLink, "_blank");
+            updateGoogleSheet(); // Envoie l'action après l'email
+        } else {
+            alert("📧 Adresse e-mail non valide ou indisponible");
+        }
+    });
 });
