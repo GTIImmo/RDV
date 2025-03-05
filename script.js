@@ -45,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
+    let telephone = getParamValue("telephone");
+    let phoneElement = document.getElementById("telephone");
+    let phoneNumberElement = document.getElementById("phoneNumber");
+    
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
@@ -64,5 +68,17 @@ document.addEventListener("DOMContentLoaded", function() {
     
     document.getElementById("annulerBtn").addEventListener("click", function() {
         updateGoogleSheet("annuler");
+    });
+
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (telephone !== "Non renseigné") {
+            phoneElement.style.display = "block";
+            phoneNumberElement.textContent = telephone;
+            if (/Mobi|Android/i.test(navigator.userAgent)) {
+                window.location.href = `tel:${telephone}`;
+            }
+        } else {
+            alert("📵 Numéro de téléphone non disponible");
+        }
     });
 });
