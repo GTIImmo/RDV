@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbwIEE9aQJIZgI8zslInIt_5ZZz1wl_IANeb2GNuXszLjB-a9WRWQFkT0AiAbzH6eXaH/exec?action=${action}&row=${rowParam}`;
         
         if (newDate) {
             let formattedDate = formatDateForSheet(newDate);
