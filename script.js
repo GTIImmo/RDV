@@ -82,4 +82,10 @@ document.addEventListener("DOMContentLoaded", function() {
             alert("📧 Adresse e-mail non valide ou indisponible");
         }
     });
+
+    // Vérification que le bouton "Reprogrammer" existe et fonctionne correctement
+    const reprogrammerBtn = document.getElementById("reprogrammerBtn");
+    if (!reprogrammerBtn) {
+        console.error("❌ ERREUR : Le bouton 'Reprogrammer' est introuvable dans le DOM !");
+    }
 });
