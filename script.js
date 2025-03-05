@@ -27,7 +27,10 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("❌ Erreur :", error));
     }
-
+    function formatPhoneNumber(number) {
+        if (number === "Non renseigné" || number.length === 0) return "Non renseigné";
+        return number.length === 9 ? "0" + number : number; // Ajoute le 0 devant si le numéro est à 9 chiffres
+    }
     console.log("📌 Mise à jour des éléments HTML avec les valeurs récupérées :");
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
