@@ -6,15 +6,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function formatPhoneNumber(number) {
-        if (number === "Non renseigné" || number.length === 0) return "Non renseigné";
-        return number.length === 9 ? "0" + number : number; // Ajoute le 0 devant si le numéro est à 9 chiffres
+        if (!number || number === "Non renseigné") return "Non renseigné";
+        let cleaned = number.replace(/[^0-9]/g, "");
+        if (cleaned.length === 9) {
+            return "0" + cleaned; // Ajouter le zéro manquant
+        }
+        return cleaned;
     }
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-
+    
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
     let phoneElement = document.getElementById("telephone");
