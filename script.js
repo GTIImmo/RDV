@@ -36,6 +36,31 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
+    document.getElementById("adresse").textContent += ` ${getParamValue("adresse")}`;
+    document.getElementById("codePostal").textContent += ` ${getParamValue("codePostal")}`;
+    document.getElementById("ville").textContent += ` ${getParamValue("ville")}`;
+    document.getElementById("typedebien").textContent += ` ${getParamValue("typedebien")}`;
+    document.getElementById("surface").textContent += ` ${getParamValue("surface")} m²`;
+    document.getElementById("nbPieces").textContent += ` ${getParamValue("nbPieces")}`;
+    document.getElementById("prix").textContent += ` ${getParamValue("prix")} €`;
+    document.getElementById("agenceEnCharge").textContent += ` ${getParamValue("agenceEnCharge")}`;
+    document.getElementById("agenceAdresse").textContent += ` ${getParamValue("agenceAdresse")}`;
+    document.getElementById("agenceTelephone").textContent += ` ${getParamValue("agenceTelephone")}`;
+    document.getElementById("negociateurAffecte").textContent += ` ${getParamValue("negociateurAffecte")}`;
+    document.getElementById("telephoneCommercial").textContent += ` ${getParamValue("telephoneCommercial")}`;
+    document.getElementById("brevo").textContent += ` ${getParamValue("brevo")}`;
+    document.getElementById("dateReception").textContent += ` ${getParamValue("dateReception")}`;
+    document.getElementById("notification").textContent += ` ${getParamValue("notification")}`;
+
+// 📌 Ajout du lien Google Maps s'il est disponible
+let googleMapsUrl = getParamValue("googleMaps");
+if (googleMapsUrl !== "Non renseigné") {
+    document.getElementById("googleMapsLink").href = googleMapsUrl;
+    document.getElementById("googleMapsLink").textContent = "Voir l'adresse sur Google Maps";
+} else {
+    document.getElementById("googleMaps").style.display = "none";
+}
+
     
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
