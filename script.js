@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
-    let selectedAction = null; // Stocke l'action sélectionnée (confirmer, annuler, reprogrammer)
+    let selectedAction = null;
 
     function getParamValue(key) {
         return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
         alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
     
-    document.getElementById("reprogrammerBtn").addEventListener("click", function() {
+    document.getElementById("modifierBtn").addEventListener("click", function() {
         selectedAction = "reprogrammer";
         alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
     });
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         alert(`📞 Composez ce numéro : ${telephone}`);
-        updateGoogleSheet(); // Envoie l'action après l'appel
+        updateGoogleSheet();
     });
 
     document.getElementById("envoyerMailBtn").addEventListener("click", function() {
@@ -77,15 +77,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 : "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
             let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(mailtoLink, "_blank");
-            updateGoogleSheet(); // Envoie l'action après l'email
+            updateGoogleSheet();
         } else {
             alert("📧 Adresse e-mail non valide ou indisponible");
         }
     });
-
-    // Vérification que le bouton "Reprogrammer" existe et fonctionne correctement
-    const reprogrammerBtn = document.getElementById("reprogrammerBtn");
-    if (!reprogrammerBtn) {
-        console.error("❌ ERREUR : Le bouton 'Reprogrammer' est introuvable dans le DOM !");
-    }
 });
