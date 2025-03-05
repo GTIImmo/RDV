@@ -37,6 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+    const phoneNumber = getParamValue("telephone");  // Récupération du numéro depuis l'URL
+    if (phoneNumber === "Non renseigné") {
+        alert("📵 Aucun numéro de téléphone disponible !");
+        return;
+    }
     });
 
     document.getElementById("annulerBtn").addEventListener("click", function() {
