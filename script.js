@@ -23,23 +23,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${rowParam}`;
         
-        if (newDate) {
-            let formattedDate = formatDateForSheet(newDate);
-            console.log("Nouvelle date formatée :", formattedDate);
-            url += `&rdv=${encodeURIComponent(formattedDate)}`;
+        if (action === "modifier") {
+    if (newDate) {  // Vérifier que la nouvelle date est bien reçue
+        try {
+            let formattedDate = new Date(newDate);
+            if (!isNaN(formattedDate.getTime())) {
+                let formattedForSheet = Utilities.formatDate(formattedDate, Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm");
+                
+                Logger.log("📌 Nouvelle date formatée pour affichage : " + formattedForSheet);
+
+                // Mise à jour du statut avec la date reprogrammée
+                let statutColumnIndex = header.indexOf("Statut RDV");
+                if (statutColumnIndex !== -1) {
+                    let statutFinal = `Reprogrammer ${formattedForSheet}`;
+                    sheet.getRange(rowIndex, statutColumnIndex + 1).setValue(statutFinal);
+                    Logger.log("✅ Statut mis à jour avec succès : " + statutFinal);
+                } else {
+                    Logger.log("❌ Erreur : Colonne Statut RDV introuvable.");
+                }
+            } else {
+                Logger.log("❌ Erreur : Date invalide reçue.");
+            }
+        } catch (error) {
+            logSheet.appendRow([new Date(), JSON.stringify(e.parameter), "Erreur format date", action, ""]);
+            return ContentService.createTextOutput("❌ Erreur : Format de date invalide").setMimeType(ContentService.MimeType.TEXT);
         }
-
-        console.log("📡 URL envoyée : " + url);
-
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                console.log("✅ Réponse du serveur : " + result);
-                alert(result);
-                location.reload();
-            })
-            .catch(error => console.error("❌ Erreur : ", error));
     }
+}
+
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
