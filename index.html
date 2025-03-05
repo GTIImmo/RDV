@@ -20,20 +20,24 @@
             <p id="prenom">🆔 Prénom : </p>
             <p id="rdv">📅 Date de RDV : </p>
             <p id="statutRDV">📆 Statut : </p>
-            <p id="telephone" style="display: none;">📞 Téléphone : <span id="numeroLead"></span></p>
         </div>
 
         <div class="buttons">
-            <button id="confirmerBtn" class="btn btn-success">✅ Confirmer RDV</button>
-            <button id="modifierBtn" class="btn btn-warning">🔄 Modifier RDV</button>
-            <button id="annulerBtn" class="btn btn-danger">❌ Annuler RDV</button>
-            <button id="appelerBtn" class="btn btn-primary">📞 Appeler</button>
+            <button id="confirmerBtn" class="btn btn-success">✅ Valider</button>
+            <button id="modifierBtn" class="btn btn-warning">🔄 Reprogrammer</button>
+            <button id="annulerBtn" class="btn btn-danger">❌ Annuler</button>
         </div>
 
         <div id="modifierSection" style="display: none; margin-top: 20px;">
             <label for="nouvelleDate">🗓️ Nouvelle date :</label>
             <input type="datetime-local" id="nouvelleDate">
             <button id="validerModifBtn" class="btn btn-primary">💾 Sauvegarder</button>
+        </div>
+
+        <div id="notificationSection" style="display: none; margin-top: 20px;">
+            <h2>Comment avertir le lead ?</h2>
+            <button id="emailBtn" class="btn btn-primary">📧 Email</button>
+            <button id="appelerBtn" class="btn btn-primary">📞 Appeler</button>
         </div>
     </div>
 
