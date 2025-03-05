@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
     console.log("🔍 Paramètres URL détectés :", params.toString());
@@ -27,10 +28,21 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(error => console.error("❌ Erreur :", error));
     }
+
     function formatPhoneNumber(number) {
         if (number === "Non renseigné" || number.length === 0) return "Non renseigné";
-        return number.length === 9 ? "0" + number : number; // Ajoute le 0 devant si le numéro est à 9 chiffres
+
+        // Supprimer les espaces et autres caractères parasites
+        number = number.replace(/\D/g, "");
+
+        // Si le numéro a 9 chiffres, ajouter "0" devant
+        if (number.length === 9) {
+            number = "0" + number;
+        }
+
+        return number;
     }
+
     console.log("📌 Mise à jour des éléments HTML avec les valeurs récupérées :");
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
@@ -47,13 +59,24 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.getElementById("appelerBtn").addEventListener("click", function() {
-        const phoneNumber = getParamValue("telephone");  // Récupération du numéro depuis l'URL
+        const phoneNumber = formatPhoneNumber(getParamValue("telephone"));  // Récupération et formatage du numéro
+        const nom = getParamValue("nom");
+        const prenom = getParamValue("prenom");
+
         if (phoneNumber === "Non renseigné") {
             alert("📵 Aucun numéro de téléphone disponible !");
             return;
         }
-        console.log("📞 Appel vers :", phoneNumber);
-        window.location.href = `tel:${phoneNumber}`;  // Ouvre l'application d'appel
-    });
 
+        console.log("📞 Appel vers :", phoneNumber);
+
+        // Vérifier si l'utilisateur est sur un mobile
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            // Sur mobile, ouvrir l'application d'appel
+            window.location.href = `tel:${phoneNumber}`;
+        } else {
+            // Sur PC, afficher une boîte de dialogue avec les infos
+            alert(`📞 Coordonnées du contact :\n\n👤 ${prenom} ${nom}\n📞 Téléphone : ${phoneNumber}`);
+        }
+    });
 });
