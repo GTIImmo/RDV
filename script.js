@@ -1,18 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
+    let selectedAction = null;
 
     function getParamValue(key) {
         return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
     }
 
-    function formatDateForSheet(dateString) {
-        let date = new Date(dateString);
-        if (isNaN(date.getTime())) return "";
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-    }
-
-    function updateGoogleSheet(action, newDate = "") {
-        if (!confirm("Confirmer cette action ?")) return;
+    function updateGoogleSheet() {
+        if (!selectedAction) {
+            alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
+            return;
+        }
 
         let rowParam = params.get("row");
         if (!rowParam) {
@@ -21,13 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${selectedAction}&row=${rowParam}`;
         
-        if (newDate) {
-            let formattedDate = formatDateForSheet(newDate);
-            url += `&rdv=${encodeURIComponent(formattedDate)}`;
-        }
-
         console.log("📡 URL envoyée : " + url);
 
         fetch(url)
@@ -44,25 +37,69 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
+    
+    let telephone = getParamValue("telephone");
+    let email = getParamValue("email");
+    
+    let confirmerBtn = document.getElementById("confirmerBtn");
+    if (confirmerBtn) {
+        confirmerBtn.addEventListener("click", function() {
+            selectedAction = "confirmer";
+            console.log("✅ Action 'Confirmer' sélectionnée");
+            alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    }
+    
+    let modifierBtn = document.getElementById("modifierBtn");
+    if (modifierBtn) {
+        modifierBtn.addEventListener("click", function() {
+            selectedAction = "reprogrammer";
+            console.log("🔄 Action 'Modifier' sélectionnée -> Envoi 'Reprogrammer'");
+            alert("🔄 Action sélectionnée : Modifier. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Modifier' est introuvable dans le DOM !");
+    }
+    
+    let annulerBtn = document.getElementById("annulerBtn");
+    if (annulerBtn) {
+        annulerBtn.addEventListener("click", function() {
+            selectedAction = "annuler";
+            console.log("❌ Action 'Annuler' sélectionnée");
+            alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
+        });
+    }
 
-    document.getElementById("confirmerBtn").addEventListener("click", function() {
-        updateGoogleSheet("confirmer");
-    });
-    
-    document.getElementById("modifierBtn").addEventListener("click", function() {
-        document.getElementById("modifierSection").style.display = "block";
-    });
-    
-    document.getElementById("validerModifBtn").addEventListener("click", function() {
-        let nouvelleDate = document.getElementById("nouvelleDate").value;
-        if (!nouvelleDate) {
-            alert("Veuillez entrer une nouvelle date.");
-            return;
-        }
-        updateGoogleSheet("modifier", nouvelleDate);
-    });
-    
-    document.getElementById("annulerBtn").addEventListener("click", function() {
-        updateGoogleSheet("annuler");
-    });
+    let appelerBtn = document.getElementById("appelerBtn");
+    if (appelerBtn) {
+        appelerBtn.addEventListener("click", function() {
+            if (!selectedAction) {
+                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
+                return;
+            }
+            console.log(`📞 Appel en cours pour : ${telephone}`);
+            alert(`📞 Composez ce numéro : ${telephone}`);
+            updateGoogleSheet();
+        });
+    }
+
+    let envoyerMailBtn = document.getElementById("envoyerMailBtn");
+    if (envoyerMailBtn) {
+        envoyerMailBtn.addEventListener("click", function() {
+            if (!selectedAction) {
+                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
+                return;
+            }
+            if (email !== "Non renseigné" && email.includes("@")) {
+                let subject = "Rendez-vous GTI Immobilier";
+                let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
+                let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                console.log("✉️ Email en cours d'envoi à : " + email);
+                window.open(mailtoLink, "_blank");
+                updateGoogleSheet();
+            } else {
+                alert("📧 Adresse e-mail non valide ou indisponible");
+            }
+        });
+    }
 });
