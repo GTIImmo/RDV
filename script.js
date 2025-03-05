@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function formatDateForSheet(dateString) {
-        let date = new Date(dateString);
-        if (isNaN(date.getTime())) return "";
-        return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    let date = new Date(dateString);
+    if (isNaN(date.getTime())) return "";
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
     }
 
     function updateGoogleSheet(action, newDate = "") {
@@ -21,12 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=modifier&row=${rowParam}&customData=${encodeURIComponent(newDate)}`;
+        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec/exec?action=${action}&row=${rowParam}`;
         
         if (newDate) {
             let formattedDate = formatDateForSheet(newDate);
-            console.log("Nouvelle date formatée :", formattedDate);
-            url += `&rdv=${encodeURIComponent(formattedDate)}`;
+            url += `&RDV=${encodeURIComponent(formattedDate)}`;
         }
 
         console.log("📡 URL envoyée : " + url);
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return cleaned;
     }
     
-    let telephone = getParamValue("telephone");
+    let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
     let phoneElement = document.getElementById("telephone");
     let phoneNumberElement = document.getElementById("phoneNumber");
@@ -72,7 +71,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     document.getElementById("validerModifBtn").addEventListener("click", function() {
         let nouvelleDate = document.getElementById("nouvelleDate").value;
-        console.log("Nouvelle date saisie :", nouvelleDate);
         if (!nouvelleDate) {
             alert("Veuillez entrer une nouvelle date.");
             return;
