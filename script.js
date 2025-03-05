@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${selectedAction}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${selectedAction}&row=${rowParam}`;
         
         console.log("📡 URL envoyée : " + url);
 
@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (confirmerBtn) {
         confirmerBtn.addEventListener("click", function() {
             selectedAction = "confirmer";
+            console.log("✅ Action 'Confirmer' sélectionnée");
             alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
         });
     }
@@ -53,14 +54,18 @@ document.addEventListener("DOMContentLoaded", function() {
     if (reprogrammerBtn) {
         reprogrammerBtn.addEventListener("click", function() {
             selectedAction = "reprogrammer";
+            console.log("🔄 Action 'Reprogrammer' sélectionnée");
             alert("🔄 Action sélectionnée : Reprogrammer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
         });
+    } else {
+        console.error("❌ ERREUR : Le bouton 'Reprogrammer' est introuvable dans le DOM !");
     }
     
     let annulerBtn = document.getElementById("annulerBtn");
     if (annulerBtn) {
         annulerBtn.addEventListener("click", function() {
             selectedAction = "annuler";
+            console.log("❌ Action 'Annuler' sélectionnée");
             alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
         });
     }
@@ -72,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Reprogrammer).");
                 return;
             }
+            console.log(`📞 Appel en cours pour : ${telephone}`);
             alert(`📞 Composez ce numéro : ${telephone}`);
             updateGoogleSheet();
         });
@@ -88,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 let subject = "Rendez-vous GTI Immobilier";
                 let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
                 let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                console.log("✉️ Email en cours d'envoi à : " + email);
                 window.open(mailtoLink, "_blank");
                 updateGoogleSheet();
             } else {
