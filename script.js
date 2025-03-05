@@ -1,28 +1,26 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() { 
     const params = new URLSearchParams(window.location.search);
-    let selectedAction = null;
-
+    console.log("🔍 Paramètres URL détectés :", params.toString());
+    
     function getParamValue(key) {
-        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
+        if (!params.has(key)) return "Non renseigné";
+        let value = params.get(key);
+        try {
+            return decodeURIComponent(value.replace(/\+/g, ' '));
+        } catch (e) {
+            console.error("❌ Erreur de décodage :", e);
+            return value;
+        }
     }
 
-    function updateGoogleSheet() {
-        if (!selectedAction) {
-            alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
-            return;
-        }
-
-        let rowParam = params.get("row");
-        if (!rowParam) {
-            console.error("❌ ERREUR : row est manquant dans l'URL !");
-            alert("❌ Erreur : Impossible d'envoyer la modification car row est manquant !");
-            return;
-        }
-
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${selectedAction}&row=${rowParam}`;
+    function updateGoogleSheet(action, newDate = "") {
+        if (!confirm("Confirmer cette action ?")) return;
         
-        console.log("📡 URL envoyée : " + url);
-
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;
+        if (newDate) {
+            url += `&rdv=${encodeURIComponent(newDate)}`;
+        }
+        
         fetch(url)
             .then(response => response.text())
             .then(result => {
@@ -30,76 +28,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert(result);
                 location.reload();
             })
-            .catch(error => console.error("❌ Erreur : ", error));
+            .catch(error => console.error("❌ Erreur :", error));
     }
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-    
-    let telephone = getParamValue("telephone");
-    let email = getParamValue("email");
-    
-    let confirmerBtn = document.getElementById("confirmerBtn");
-    if (confirmerBtn) {
-        confirmerBtn.addEventListener("click", function() {
-            selectedAction = "confirmer";
-            console.log("✅ Action 'Confirmer' sélectionnée");
-            alert("✅ Action sélectionnée : Confirmer. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-        });
-    }
-    
-    let modifierBtn = document.getElementById("modifierBtn");
-    if (modifierBtn) {
-        modifierBtn.addEventListener("click", function() {
-            selectedAction = "reprogrammer";
-            console.log("🔄 Action 'Modifier' sélectionnée -> Envoi 'Reprogrammer'");
-            alert("🔄 Action sélectionnée : Modifier. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-        });
-    } else {
-        console.error("❌ ERREUR : Le bouton 'Modifier' est introuvable dans le DOM !");
-    }
-    
-    let annulerBtn = document.getElementById("annulerBtn");
-    if (annulerBtn) {
-        annulerBtn.addEventListener("click", function() {
-            selectedAction = "annuler";
-            console.log("❌ Action 'Annuler' sélectionnée");
-            alert("❌ Action sélectionnée : Annuler. Vous devez maintenant appeler ou envoyer un email pour valider la mise à jour.");
-        });
-    }
 
-    let appelerBtn = document.getElementById("appelerBtn");
-    if (appelerBtn) {
-        appelerBtn.addEventListener("click", function() {
-            if (!selectedAction) {
-                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
-                return;
-            }
-            console.log(`📞 Appel en cours pour : ${telephone}`);
-            alert(`📞 Composez ce numéro : ${telephone}`);
-            updateGoogleSheet();
-        });
-    }
-
-    let envoyerMailBtn = document.getElementById("envoyerMailBtn");
-    if (envoyerMailBtn) {
-        envoyerMailBtn.addEventListener("click", function() {
-            if (!selectedAction) {
-                alert("Veuillez d'abord choisir une action (Confirmer, Annuler ou Modifier).");
-                return;
-            }
-            if (email !== "Non renseigné" && email.includes("@")) {
-                let subject = "Rendez-vous GTI Immobilier";
-                let body = "Bonjour,\n\nJe vous contacte concernant votre rendez-vous.\n\nMerci,";
-                let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                console.log("✉️ Email en cours d'envoi à : " + email);
-                window.open(mailtoLink, "_blank");
-                updateGoogleSheet();
-            } else {
-                alert("📧 Adresse e-mail non valide ou indisponible");
-            }
-        });
-    }
+    document.getElementById("confirmerBtn").addEventListener("click", function() {
+        updateGoogleSheet("confirmer");
+    });
+    
+    document.getElementById("modifierBtn").addEventListener("click", function() {
+        document.getElementById("modifierSection").style.display = "block";
+    });
+    
+    document.getElementById("validerModifBtn").addEventListener("click", function() {
+        let nouvelleDate = document.getElementById("nouvelleDate").value;
+        if (!nouvelleDate) {
+            alert("Veuillez entrer une nouvelle date.");
+            return;
+        }
+        updateGoogleSheet("modifier", nouvelleDate);
+    });
+    
+    document.getElementById("annulerBtn").addEventListener("click", function() {
+        updateGoogleSheet("annuler");
+    });
 });
