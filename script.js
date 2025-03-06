@@ -32,13 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Récupération et affichage des informations du lead
-    document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
-    document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
-    document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
-    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-
+    let prenom = getParamValue("prenom");
+    let nom = getParamValue("nom");
+    let rdvDate = getParamValue("rdv");
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
+
+    document.getElementById("nom").textContent += ` ${nom}`;
+    document.getElementById("prenom").textContent += ` ${prenom}`;
+    document.getElementById("rdv").textContent += ` ${rdvDate}`;
+    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
     if (telephone !== "Non renseigné") {
         document.getElementById("telephone").style.display = "block";
@@ -93,27 +96,27 @@ document.addEventListener("DOMContentLoaded", function() {
         let subject, body;
 
         if (emailType === "confirmation") {
-            subject = "Confirmation de votre rendez-vous d'estimation";
-            body = "Bonjour [Prénom],\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n" +
-                   "📅 Date et heure : [Date du RDV]\n📍 Lieu : [Adresse ou lien visio si applicable]\n\n" +
+            subject = `Confirmation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n` +
+                   `📅 **Date et heure :** ${rdvDate}\n📍 **Lieu :** [Adresse ou lien visio si applicable]\n\n` +
                    "Lors de cet échange, nous affinerons votre estimation en fonction des spécificités de votre bien et des tendances actuelles du marché.\n\n" +
                    "Si vous avez des documents utiles (plan, acte de propriété, diagnostics...), n’hésitez pas à les préparer.\n\n" +
-                   "📞 Besoin de nous contacter ? Vous pouvez nous joindre au [Numéro de téléphone de l’agence].\n\n" +
+                   `📞 **Besoin de nous contacter ?** Vous pouvez nous joindre au ${telephone}.\n\n` +
                    "À très bientôt !\nGTI Immobilier";
         } else if (emailType === "annulation") {
-            subject = "Annulation de votre rendez-vous d'estimation";
-            body = "Bonjour [Prénom],\n\nNous vous informons que votre rendez-vous d'estimation prévu le [Date du RDV] a été annulé.\n\n" +
+            subject = `Annulation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous informons que votre rendez-vous d'estimation prévu le ${rdvDate} a été annulé.\n\n` +
                    "Si vous souhaitez reprogrammer une nouvelle date, nous restons à votre disposition pour convenir d’un nouveau créneau.\n\n" +
-                   "📅 Proposer un nouvel horaire ? Répondez simplement à cet e-mail ou contactez-nous directement au [Numéro de téléphone de l’agence].\n\n" +
+                   `📅 **Proposer un nouvel horaire ?** Répondez simplement à cet e-mail ou contactez-nous directement au ${telephone}.\n\n` +
                    "Nous restons à votre écoute pour toute question.\n\nCordialement,\nGTI Immobilier";
         } else {
-            subject = "Reprogrammons ensemble votre rendez-vous d’estimation";
-            body = "Bonjour [Prénom],\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n" +
-                   "Votre rendez-vous initialement prévu le [Date du RDV] ne pourra pas avoir lieu à cette date.\n" +
+            subject = `Reprogrammons ensemble votre rendez-vous d’estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n` +
+                   `Votre rendez-vous initialement prévu le ${rdvDate} ne pourra pas avoir lieu à cette date.\n` +
                    "Nous souhaitons échanger avec vous afin de **trouver ensemble un créneau qui vous convient**.\n\n" +
-                   "📞 Pour convenir d’une nouvelle date, contactez-nous :\n" +
-                   "- Par téléphone : [Numéro de l’agence]\n" +
-                   "- Par e-mail : [Adresse e-mail de l’agence]\n\n" +
+                   `📞 **Pour convenir d’une nouvelle date, contactez-nous :**\n` +
+                   `- **Par téléphone :** ${telephone}\n` +
+                   `- **Par e-mail :** ${email}\n\n` +
                    "Nous restons à votre disposition pour toute question et nous serions ravis d’échanger avec vous prochainement.\n\n" +
                    "Cordialement,\nGTI Immobilier";
         }
