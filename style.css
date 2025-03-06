@@ -30,12 +30,22 @@ body {
     text-align: center;
 }
 
-/* 🎯 Introduction stylisée */
-.info-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+/* 🎯 Introduction stylisée avec effet visuel */
+.intro-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #A50064;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+}
+
+/* 💡 Meilleur interlignage */
+.intro-text {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 10px;
 }
 
 /* 📋 Infos du lead en deux colonnes */
@@ -58,12 +68,36 @@ body {
     margin-bottom: 10px;
 }
 
-/* 🔹 Boutons d'action bien espacés */
+/* 🚀 Phrase clé bien mise en avant */
+.action-message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #A50064;
+    margin-top: 20px;
+}
+
+/* 🔹 Boutons modernes avec animation */
 .actions {
     display: flex;
     justify-content: center;
     gap: 30px;
     margin: 25px 0;
+}
+
+.btn {
+    font-size: 16px;
+    padding: 14px 24px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Effet au survol */
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* 📞 Bouton Appeler */
@@ -74,7 +108,6 @@ body {
 
 .btn-call:hover {
     background-color: #C70039;
-    transform: scale(1.05);
 }
 
 /* 📧 Bouton Envoyer un mail */
@@ -85,49 +118,6 @@ body {
 
 .btn-email:hover {
     background-color: #DAA520;
-    transform: scale(1.05);
-}
-
-/* ✅ Oui / Non */
-.btn-success {
-    background-color: #00C853;
-    color: white;
-}
-
-.btn-success:hover {
-    background-color: #009624;
-}
-
-.btn-danger {
-    background-color: #D90429;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #B10221;
-}
-
-/* 📧 Boîte de dialogue */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    width: 90%;
-    max-width: 420px;
 }
 
 /* 📱 Responsive */
