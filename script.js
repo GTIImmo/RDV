@@ -1,126 +1,119 @@
-/* 🌟 Fond général */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #F4F4F4;
-    color: #222222;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    const params = new URLSearchParams(window.location.search);
 
-/* 🌟 Bandeau du haut anthracite */
-.header {
-    background-color: #222222;
-    text-align: center;
-    padding: 15px 0;
-}
-
-/* 🏠 Logo Agrandi */
-.logo {
-    max-width: 200px;
-}
-
-/* 📋 Conteneur principal */
-.container {
-    max-width: 700px;
-    background-color: white;
-    margin: 20px auto;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
-
-/* 🔹 Boutons d'action modernisés */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-}
-
-/* Style général des boutons */
-.btn {
-    font-size: 18px;
-    padding: 12px 20px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-/* Effet au survol */
-.btn:hover {
-    transform: scale(1.05);
-    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* 📞 Bouton Appeler */
-.btn-call {
-    background-color: #FF5733;
-    color: white;
-    flex: 1;
-    min-width: 160px;
-}
-
-.btn-call:hover {
-    background-color: #C70039;
-}
-
-/* 📧 Bouton Envoyer un mail */
-.btn-email {
-    background-color: #FFC300;
-    color: black;
-    flex: 1;
-    min-width: 160px;
-}
-
-.btn-email:hover {
-    background-color: #DAA520;
-}
-
-/* ✅ Oui / Non avec couleurs flash */
-.btn-yes {
-    background-color: #00C853;
-    color: white;
-    width: 100px;
-}
-
-.btn-no {
-    background-color: #FF1744;
-    color: white;
-    width: 100px;
-}
-
-/* 📧 Boîte modale */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 400px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-/* 📱 Responsive */
-@media screen and (max-width: 600px) {
-    .actions {
-        flex-direction: column;
-        align-items: center;
+    function getParamValue(key) {
+        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
     }
-}
+
+    function formatPhoneNumber(number) {
+        if (!number || number === "Non renseigné") return "Non renseigné";
+        let cleaned = number.replace(/[^0-9]/g, "");
+        return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
+    }
+
+    function updateGoogleSheet(action) {
+        if (!confirm("Confirmer cette action ?")) return;
+
+        let rowParam = params.get("row");
+        if (!rowParam) {
+            alert("❌ Erreur : Impossible d'envoyer la modification !");
+            return;
+        }
+
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                location.reload();
+            })
+            .catch(error => console.error("❌ Erreur : ", error));
+    }
+
+    // Récupération et affichage des informations du lead
+    document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
+    document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
+    document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
+    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
+
+    let telephone = formatPhoneNumber(getParamValue("telephone"));
+    let email = getParamValue("email");
+
+    if (telephone !== "Non renseigné") {
+        document.getElementById("telephone").style.display = "block";
+        document.getElementById("phoneNumber").textContent = telephone;
+    }
+
+    if (email !== "Non renseigné") {
+        document.getElementById("email").style.display = "block";
+        document.getElementById("emailAddress").textContent = email;
+    }
+
+    // Gestion de l'appel
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (telephone !== "Non renseigné") {
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                window.location.href = `tel:${telephone}`;
+            } else {
+                alert(`📞 Composez ce numéro : ${telephone}`);
+            }
+        } else {
+            alert("📵 Numéro de téléphone non disponible");
+        }
+    });
+
+    // Gestion de la confirmation et annulation du RDV
+    document.getElementById("confirmerBtn").addEventListener("click", function() {
+        updateGoogleSheet("confirmer");
+    });
+
+    document.getElementById("annulerBtn").addEventListener("click", function() {
+        updateGoogleSheet("annuler");
+    });
+
+    // Gestion de l'envoi d'e-mail avec sélection du modèle
+    const emailModal = document.getElementById("emailModal");
+    const fermerModal = document.getElementById("fermerModal");
+
+    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
+        if (email !== "Non renseigné") {
+            emailModal.style.display = "flex";
+        } else {
+            alert("📧 Adresse e-mail non disponible");
+        }
+    });
+
+    fermerModal.addEventListener("click", function() {
+        emailModal.style.display = "none";
+    });
+
+    document.getElementById("envoyerMailFinal").addEventListener("click", function() {
+        let emailType = document.getElementById("emailType").value;
+        let subject, body;
+
+        if (emailType === "confirmation") {
+            subject = "Confirmation de votre rendez-vous";
+            body = "Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier";
+        } else if (emailType === "annulation") {
+            subject = "Annulation de votre rendez-vous";
+            body = "Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier";
+        } else {
+            subject = "Reprogrammation de votre rendez-vous";
+            body = "Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier";
+        }
+
+        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            // 📱 Mobile : Ouvre l'application e-mail par défaut
+            window.location.href = mailtoLink;
+        } else {
+            // 🖥️ PC : Ouvre Gmail directement avec l'e-mail prérempli
+            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(gmailLink, "_blank");
+        }
+
+        emailModal.style.display = "none";
+    });
+});
