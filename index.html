@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <div class="header">
             <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
@@ -16,29 +17,29 @@
     <div class="container">
         <h1>📅 Gestion du Rendez-vous</h1>
 
-        <!-- 🔹 Message explicatif pour le commercial -->
-        <div class="info-box">
-            <p>Ce rendez-vous a été demandé par ce lead après avoir complété notre formulaire d’estimation en ligne.</p>
-            <p>Nous l'avons recontacté pour affiner son projet et lui proposer un échange. À vous de confirmer si un RDV a bien été convenu.</p>
-            <p><strong>Merci de vous rapprocher rapidement de ce contact pour confirmer, décaler ou annuler le RDV.</strong></p>
-        </div>
+        <!-- Explication pédagogique pour le commercial -->
+        <p class="info-text">
+            Ce rendez-vous a été pris suite à une demande d'estimation en ligne. <br>
+            Après nos relances, nous avons proposé d’affiner l’estimation avec le lead. <br>
+            Il est **important** de le contacter rapidement pour **confirmer, décaler ou annuler**.
+        </p>
 
-        <!-- 🔹 Informations du lead -->
         <div class="lead-info">
             <p id="nom">👤 Nom : </p>
             <p id="prenom">🆔 Prénom : </p>
             <p id="rdv">📅 Date de RDV : </p>
             <p id="statutRDV">📆 Statut : </p>
+            <p id="telephone" style="display: none;">📞 Téléphone : <span id="phoneNumber"></span></p>
+            <p id="email" style="display: none;">📧 Email : <span id="emailAddress"></span></p>
         </div>
 
-        <!-- 🔹 Question avec boutons alignés horizontalement -->
+        <!-- Question avec boutons bien alignés -->
         <div class="question-rdv">
-            <p>✅ Avez-vous convenu d’un RDV ?</p>
-            <div class="buttons">
-                <button id="confirmerBtn" class="btn btn-success">Oui</button>
-                <button id="annulerBtn" class="btn btn-danger">Non</button>
-            </div>
+            <span class="question-text">Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
+            <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
+            <button id="annulerBtn" class="btn btn-danger">❌ Non</button>
         </div>
+
     </div>
 
     <script src="script.js"></script>
