@@ -1,28 +1,18 @@
-/* 🌟 Fond général */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Fond général gris clair */
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-/* 🌟 Bandeau du haut anthracite */
+/* 🌟 Bandeau du haut anthracite avec logo plus grand */
 .header {
-    background-color: #222; /* Anthracite */
+    background-color: #222;
     text-align: center;
-    padding: 10px 0;
+    padding: 20px 0;
 }
 
-/* 🏠 Logo réduit */
 .logo {
-    max-width: 140px;
+    max-width: 180px; /* Augmenté pour plus de visibilité */
 }
 
-/* 📋 Conteneur principal en blanc */
+/* 📋 Conteneur principal */
 .container {
-    max-width: 700px;
-    background-color: white; /* Fond blanc */
+    max-width: 800px;
+    background-color: white;
     margin: 30px auto;
     padding: 20px;
     border-radius: 12px;
@@ -30,192 +20,76 @@ body {
     text-align: center;
 }
 
-/* 📋 Titre principal */
-h1 {
-    font-size: 22px;
-    color: #F77F00;
-    text-align: center;
+/* 📋 Infos du lead en 2 colonnes */
+.lead-info {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin: 20px 0;
 }
 
-/* ✍️ Explication pédagogique */
-.info-text {
+.lead-column {
+    width: 48%;
+}
+
+.lead-column p {
     font-size: 16px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 🎯 Boutons avec couleurs distinctes */
+.btn-call {
+    background-color: #007BFF;
+    color: white;
+}
+
+.btn-email {
+    background-color: #17A2B8;
+    color: white;
+}
+
+.btn-send {
+    background-color: #28A745;
+    color: white;
+}
+
+.btn-close {
+    background-color: #DC3545;
+    color: white;
+}
+
+.btn-confirm {
+    background-color: #28A745;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #FF5722;
+    color: white;
+}
+
+/* Effets au survol */
+button {
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* 🌟 Textes d'introduction et de call-to-action */
+.info-text {
     background-color: #f8f8f8;
     padding: 12px;
     border-radius: 8px;
     text-align: center;
     margin-bottom: 20px;
     line-height: 1.5;
-    border-left: 4px solid #F77F00;
-}
-
-/* 📋 Infos du lead */
-.lead-info {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 10px 0;
-}
-
-.lead-info p {
-    font-size: 16px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-}
-
-/* 🎯 Question + boutons alignés */
-.question-rdv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 18px;
     font-weight: bold;
-    color: #222;
-}
-
-/* ✅ Bouton "Oui" */
-.btn-success {
-    background-color: #00C853;
-    color: white;
-    font-size: 16px;
-    padding: 12px 18px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.btn-success:hover {
-    background-color: #009624;
-}
-
-/* ❌ Bouton "Non" */
-.btn-danger {
-    background-color: #D90429;
-    color: white;
-    font-size: 16px;
-    padding: 12px 18px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-.btn-danger:hover {
-    background-color: #B10221;
-}
-
-/* 🌟 Style des boutons "Appeler" et "Envoyer un mail" */
-.btn-call {
-    background-color: #007BFF;
-    color: white;
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-}
-
-.btn-call:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-.btn-email {
-    background-color: #28A745;
-    color: white;
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-}
-
-.btn-email:hover {
-    background-color: #1e7e34;
-    transform: scale(1.05);
-}
-
-/* 🌟 Boîte modale pour le choix d'email */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    width: 90%;
-    max-width: 420px; /* Augmenté pour un meilleur confort visuel */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* 🌟 Style du menu déroulant dans la modale */
-select#emailType {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 15px;
-}
-
-/* Effet au survol */
-select#emailType:hover {
-    border-color: #F77F00;
-}
-
-/* Style du menu déroulant quand il est actif */
-select#emailType:focus {
-    border-color: #F77F00;
-    box-shadow: 0 0 10px rgba(247, 127, 0, 0.3);
-}
-
-/* Amélioration du style des options */
-select#emailType option {
-    font-size: 16px;
-    padding: 8px;
-    background-color: white;
-    color: #333;
-}
-
-/* 📋 Section des boutons d'action */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* 📱 Responsive */
-@media screen and (max-width: 600px) {
-    .actions {
-        flex-direction: column;
-    }
-    
-    select#emailType {
-        font-size: 18px;
-    }
+    border-left: 4px solid #F77F00;
 }
