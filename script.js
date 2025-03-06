@@ -1,135 +1,82 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des RDV - GTI Immobilier</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    function getParamValue(key) {
-        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
-    }
+    <header>
+        <div class="header">
+            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
+        </div>
+    </header>
 
-    function formatPhoneNumber(number) {
-        if (!number || number === "Non renseigné") return "Non renseigné";
-        let cleaned = number.replace(/[^0-9]/g, "");
-        return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
-    }
+    <div class="container">
+        <!-- 📢 Introduction -->
+        <div class="info-container">
+            <h2 class="intro-title">📢 Un futur vendeur a besoin de vous !</h2>
 
-    function updateGoogleSheet(action) {
-        if (!confirm("Confirmer cette action ?")) return;
+            <p class="intro-text">
+                Ce rendez-vous a été pris suite à une <span class="highlight">demande d'estimation en ligne</span>.
+            </p>
 
-        let rowParam = params.get("row");
-        if (!rowParam) {
-            alert("❌ Erreur : Impossible d'envoyer la modification !");
-            return;
-        }
+            <p class="intro-text">
+                Après quelques échanges, nous lui avons proposé d’affiner son projet.
+            </p>
+        </div>
 
-        let url = `https://script.google.com/macros/s/AKfycbxSwOLfYgQ7UjPFVF1kfkABV67cx0rL_60J2g1hs-j9OXxZVmUGdpi6PIX3P377gI5uxw/exec?action=${action}&row=${rowParam}`;
+        <!-- 📋 Infos du lead en deux colonnes -->
+        <div class="lead-info">
+            <div class="lead-column">
+                <p id="nom">👤 <strong>Nom :</strong> </p>
+                <p id="prenom">🆔 <strong>Prénom :</strong> </p>
+                <p id="rdv">📅 <strong>Date de RDV :</strong> </p>
+            </div>
+            <div class="lead-column">
+                <p id="statutRDV">📆 <strong>Statut :</strong> </p>
+                <p id="telephone" style="display: none;">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
+                <p id="email" style="display: none;">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
+            </div>
+        </div>
 
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                alert(result);
-                location.reload();
-            })
-            .catch(error => console.error("❌ Erreur : ", error));
-    }
+        <!-- 🚀 Phrase clé sous les données du lead -->
+        <p class="action-message">
+            🚀 <strong>C'est le moment d'agir !</strong> Contactez-le rapidement pour 
+            <span class="highlight">confirmer</span>, <span class="highlight">ajuster</span> ou <span class="highlight">reprogrammer</span> son rendez-vous.
+        </p>
 
-    // Récupération et affichage des informations du lead
-    let prenom = getParamValue("prenom");
-    let nom = getParamValue("nom");
-    let rdvDate = getParamValue("rdv");
-    let telephone = formatPhoneNumber(getParamValue("telephone"));
-    let email = getParamValue("email");
+        <!-- 🔹 Boutons d'action avec un bon espacement et effets -->
+        <div class="actions">
+            <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
+            <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
+        </div>
 
-    document.getElementById("nom").textContent += ` ${nom}`;
-    document.getElementById("prenom").textContent += ` ${prenom}`;
-    document.getElementById("rdv").textContent += ` ${rdvDate}`;
-    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
+        <!-- 📧 Boîte de dialogue pour l'envoi de mail (Cachée au départ) -->
+        <div id="emailModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>✉ Sélectionnez un modèle d'e-mail</h2>
+                <select id="emailType">
+                    <option value="confirmation">✅ Confirmer le RDV</option>
+                    <option value="annulation">❌ Annuler le RDV</option>
+                    <option value="reprogrammation">🔄 Reprogrammer le RDV</option>
+                </select>
+                <button id="envoyerMailFinal" class="btn btn-success">📩 Envoyer</button>
+                <button id="fermerModal" class="btn btn-danger">❌ Fermer</button>
+            </div>
+        </div>
 
-    if (telephone !== "Non renseigné") {
-        document.getElementById("telephone").style.display = "block";
-        document.getElementById("phoneNumber").textContent = telephone;
-    }
+        <!-- ❓ Question avec choix Oui/Non bien espacés -->
+        <div class="question-rdv">
+            <span>Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
+            <button id="confirmerBtn" class="btn btn-yes">✅ Oui</button>
+            <button id="annulerBtn" class="btn btn-no">❌ Non</button>
+        </div>
 
-    if (email !== "Non renseigné") {
-        document.getElementById("email").style.display = "block";
-        document.getElementById("emailAddress").textContent = email;
-    }
+    </div>
 
-    // Gestion de l'appel
-    document.getElementById("appelerBtn").addEventListener("click", function() {
-        if (telephone !== "Non renseigné") {
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                window.location.href = `tel:${telephone}`;
-            } else {
-                alert(`📞 Composez ce numéro : ${telephone}`);
-            }
-        } else {
-            alert("📵 Numéro de téléphone non disponible");
-        }
-    });
-
-    // Gestion de la confirmation et annulation du RDV
-    document.getElementById("confirmerBtn").addEventListener("click", function() {
-        updateGoogleSheet("confirmer");
-    });
-
-    document.getElementById("annulerBtn").addEventListener("click", function() {
-        updateGoogleSheet("annuler");
-    });
-
-    // Gestion de l'envoi d'e-mail avec sélection du modèle
-    const emailModal = document.getElementById("emailModal");
-    const fermerModal = document.getElementById("fermerModal");
-
-    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
-        if (email !== "Non renseigné") {
-            emailModal.style.display = "flex";
-        } else {
-            alert("📧 Adresse e-mail non disponible");
-        }
-    });
-
-    fermerModal.addEventListener("click", function() {
-        emailModal.style.display = "none";
-    });
-
-    document.getElementById("envoyerMailFinal").addEventListener("click", function() {
-        let emailType = document.getElementById("emailType").value;
-        let subject, body;
-
-        if (emailType === "confirmation") {
-            subject = `Confirmation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n` +
-                   `📅 **Date et heure :** ${rdvDate}\n📍 **Lieu :** [Adresse ou lien visio si applicable]\n\n` +
-                   "Lors de cet échange, nous affinerons votre estimation en fonction des spécificités de votre bien et des tendances actuelles du marché.\n\n" +
-                   "Si vous avez des documents utiles (plan, acte de propriété, diagnostics...), n’hésitez pas à les préparer.\n\n" +
-                   `📞 **Besoin de nous contacter ?** Vous pouvez nous joindre au ${telephone}.\n\n` +
-                   "À très bientôt !\nGTI Immobilier";
-        } else if (emailType === "annulation") {
-            subject = `Annulation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous vous informons que votre rendez-vous d'estimation prévu le ${rdvDate} a été annulé.\n\n` +
-                   "Si vous souhaitez reprogrammer une nouvelle date, nous restons à votre disposition pour convenir d’un nouveau créneau.\n\n" +
-                   `📅 **Proposer un nouvel horaire ?** Répondez simplement à cet e-mail ou contactez-nous directement au ${telephone}.\n\n` +
-                   "Nous restons à votre écoute pour toute question.\n\nCordialement,\nGTI Immobilier";
-        } else {
-            subject = `Reprogrammons ensemble votre rendez-vous d’estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n` +
-                   `Votre rendez-vous initialement prévu le ${rdvDate} ne pourra pas avoir lieu à cette date.\n` +
-                   "Nous souhaitons échanger avec vous afin de **trouver ensemble un créneau qui vous convient**.\n\n" +
-                   `📞 **Pour convenir d’une nouvelle date, contactez-nous :**\n` +
-                   `- **Par téléphone :** ${telephone}\n` +
-                   `- **Par e-mail :** ${email}\n\n` +
-                   "Nous restons à votre disposition pour toute question et nous serions ravis d’échanger avec vous prochainement.\n\n" +
-                   "Cordialement,\nGTI Immobilier";
-        }
-
-        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            window.location.href = mailtoLink;
-        } else {
-            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(gmailLink, "_blank");
-        }
-
-        emailModal.style.display = "none";
-    });
-});
+    <script src="script.js"></script>
+</body>
+</html>
