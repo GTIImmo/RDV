@@ -1,10 +1,45 @@
+/* ✅ Encadré d'explication */
+.info-box {
+    background-color: #f9f9f9;
+    border-left: 5px solid #F77F00;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* 📋 Question et boutons alignés */
+.question-rdv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+.question-rdv p {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* 🎨 Boutons alignés horizontalement */
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
 /* ✅ Bouton "Oui" */
 .btn-success {
     background-color: #00C853;
     color: white;
-    font-size: 18px;
-    padding: 14px;
-    width: 100px;
+    font-size: 16px;
+    padding: 12px;
+    width: 80px;
     border-radius: 8px;
 }
 
@@ -16,9 +51,9 @@
 .btn-danger {
     background-color: #D90429;
     color: white;
-    font-size: 18px;
-    padding: 14px;
-    width: 100px;
+    font-size: 16px;
+    padding: 12px;
+    width: 80px;
     border-radius: 8px;
 }
 
