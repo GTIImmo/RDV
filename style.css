@@ -1,31 +1,31 @@
-/* 🌟 Fond anthracite et mise à jour globale */
+/* 🌟 Fond général (bandeau anthracite, contenu blanc) */
 body {
     font-family: Arial, sans-serif;
-    background-color: #333;
-    color: white;
+    background-color: #f4f4f4; /* Fond global gris clair */
+    color: #333;
     margin: 0;
     padding: 0;
 }
 
-/* 🌟 Bandeau du logo (taille réduite) */
+/* 🌟 Bandeau du haut en anthracite avec le logo */
 .header {
-    background-color: #222;
+    background-color: #222; /* Anthracite */
     text-align: center;
     padding: 10px 0;
 }
 
 .logo {
-    max-width: 150px; /* Réduction du logo */
+    max-width: 140px; /* Logo plus petit */
 }
 
-/* 📋 Conteneur principal */
+/* 📋 Conteneur principal en blanc */
 .container {
     max-width: 700px;
-    background-color: #444; /* Gris foncé */
-    margin: 20px auto;
+    background-color: white; /* Fond blanc */
+    margin: 30px auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
@@ -39,12 +39,13 @@ h1 {
 /* ✍️ Explication pédagogique */
 .info-text {
     font-size: 16px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #f4f4f4;
     padding: 12px;
     border-radius: 8px;
     text-align: center;
     margin-bottom: 20px;
     line-height: 1.5;
+    border-left: 4px solid #F77F00;
 }
 
 /* 📋 Infos du lead */
@@ -57,18 +58,17 @@ h1 {
 
 .lead-info p {
     font-size: 16px;
-    padding: 8px;
-    border-bottom: 1px solid #666;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
     text-align: center;
 }
 
-/* 🎯 Question et boutons alignés */
+/* 🎯 Question + boutons "Oui / Non" bien alignés */
 .question-rdv {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    background: rgba(255, 255, 255, 0.1);
     padding: 12px;
     border-radius: 8px;
     margin-top: 20px;
@@ -77,6 +77,7 @@ h1 {
 .question-text {
     font-size: 18px;
     font-weight: bold;
+    color: #222;
 }
 
 /* ✅ Bouton "Oui" */
@@ -84,8 +85,8 @@ h1 {
     background-color: #00C853;
     color: white;
     font-size: 16px;
-    padding: 10px 16px;
-    border-radius: 6px;
+    padding: 12px 18px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
@@ -100,8 +101,8 @@ h1 {
     background-color: #D90429;
     color: white;
     font-size: 16px;
-    padding: 10px 16px;
-    border-radius: 6px;
+    padding: 12px 18px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: background 0.3s ease-in-out;
