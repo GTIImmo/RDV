@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("❌ Erreur : ", error));
     }
 
-    // Récupération des informations du lead
+    // Récupération et affichage des informations du lead
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Gestion des confirmations et annulations
+    // Gestion de la confirmation et annulation du RDV
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateGoogleSheet("annuler");
     });
 
-    // Gestion de l'envoi d'email avec modèles
+    // Gestion de l'envoi d'e-mail avec sélection du modèle
     const emailModal = document.getElementById("emailModal");
     const fermerModal = document.getElementById("fermerModal");
 
@@ -92,24 +92,28 @@ document.addEventListener("DOMContentLoaded", function() {
         let emailType = document.getElementById("emailType").value;
         let subject, body;
 
-        // 🎯 Texte des modèles d’e-mail
         if (emailType === "confirmation") {
             subject = "Confirmation de votre rendez-vous";
-            body = `Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier`;
+            body = "Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier";
         } else if (emailType === "annulation") {
             subject = "Annulation de votre rendez-vous";
-            body = `Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier`;
+            body = "Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier";
         } else {
             subject = "Reprogrammation de votre rendez-vous";
-            body = `Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier`;
+            body = "Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier";
         }
 
         let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-        // ✅ Ajout d'un délai avant de fermer la boîte modale
-        setTimeout(() => {
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            // 📱 Mobile : Ouvre l'application e-mail par défaut
             window.location.href = mailtoLink;
-            emailModal.style.display = "none";
-        }, 100);
+        } else {
+            // 🖥️ PC : Ouvre Gmail directement avec l'e-mail prérempli
+            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(gmailLink, "_blank");
+        }
+
+        emailModal.style.display = "none";
     });
 });
