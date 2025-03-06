@@ -1,135 +1,126 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const params = new URLSearchParams(window.location.search);
+/* 🌟 Fond général */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4;
+    color: #222222;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
-    function getParamValue(key) {
-        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
+/* 🌟 Bandeau du haut anthracite */
+.header {
+    background-color: #222222;
+    text-align: center;
+    padding: 15px 0;
+}
+
+/* 🏠 Logo Agrandi */
+.logo {
+    max-width: 200px;
+}
+
+/* 📋 Conteneur principal */
+.container {
+    max-width: 700px;
+    background-color: white;
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* 🔹 Boutons d'action modernisés */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+/* Style général des boutons */
+.btn {
+    font-size: 18px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Effet au survol */
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 📞 Bouton Appeler */
+.btn-call {
+    background-color: #FF5733;
+    color: white;
+    flex: 1;
+    min-width: 160px;
+}
+
+.btn-call:hover {
+    background-color: #C70039;
+}
+
+/* 📧 Bouton Envoyer un mail */
+.btn-email {
+    background-color: #FFC300;
+    color: black;
+    flex: 1;
+    min-width: 160px;
+}
+
+.btn-email:hover {
+    background-color: #DAA520;
+}
+
+/* ✅ Oui / Non avec couleurs flash */
+.btn-yes {
+    background-color: #00C853;
+    color: white;
+    width: 100px;
+}
+
+.btn-no {
+    background-color: #FF1744;
+    color: white;
+    width: 100px;
+}
+
+/* 📧 Boîte modale */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+        align-items: center;
     }
-
-    function formatPhoneNumber(number) {
-        if (!number || number === "Non renseigné") return "Non renseigné";
-        let cleaned = number.replace(/[^0-9]/g, "");
-        return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
-    }
-
-    function updateGoogleSheet(action) {
-        if (!confirm("Confirmer cette action ?")) return;
-
-        let rowParam = params.get("row");
-        if (!rowParam) {
-            alert("❌ Erreur : Impossible d'envoyer la modification !");
-            return;
-        }
-
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
-
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                alert(result);
-                location.reload();
-            })
-            .catch(error => console.error("❌ Erreur : ", error));
-    }
-
-    // Récupération et affichage des informations du lead
-    let prenom = getParamValue("prenom");
-    let nom = getParamValue("nom");
-    let rdvDate = getParamValue("rdv");
-    let telephone = formatPhoneNumber(getParamValue("telephone"));
-    let email = getParamValue("email");
-
-    document.getElementById("nom").textContent += ` ${nom}`;
-    document.getElementById("prenom").textContent += ` ${prenom}`;
-    document.getElementById("rdv").textContent += ` ${rdvDate}`;
-    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-
-    if (telephone !== "Non renseigné") {
-        document.getElementById("telephone").style.display = "block";
-        document.getElementById("phoneNumber").textContent = telephone;
-    }
-
-    if (email !== "Non renseigné") {
-        document.getElementById("email").style.display = "block";
-        document.getElementById("emailAddress").textContent = email;
-    }
-
-    // Gestion de l'appel
-    document.getElementById("appelerBtn").addEventListener("click", function() {
-        if (telephone !== "Non renseigné") {
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                window.location.href = `tel:${telephone}`;
-            } else {
-                alert(`📞 Composez ce numéro : ${telephone}`);
-            }
-        } else {
-            alert("📵 Numéro de téléphone non disponible");
-        }
-    });
-
-    // Gestion de la confirmation et annulation du RDV
-    document.getElementById("confirmerBtn").addEventListener("click", function() {
-        updateGoogleSheet("confirmer");
-    });
-
-    document.getElementById("annulerBtn").addEventListener("click", function() {
-        updateGoogleSheet("annuler");
-    });
-
-    // Gestion de l'envoi d'e-mail avec sélection du modèle
-    const emailModal = document.getElementById("emailModal");
-    const fermerModal = document.getElementById("fermerModal");
-
-    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
-        if (email !== "Non renseigné") {
-            emailModal.style.display = "flex";
-        } else {
-            alert("📧 Adresse e-mail non disponible");
-        }
-    });
-
-    fermerModal.addEventListener("click", function() {
-        emailModal.style.display = "none";
-    });
-
-    document.getElementById("envoyerMailFinal").addEventListener("click", function() {
-        let emailType = document.getElementById("emailType").value;
-        let subject, body;
-
-        if (emailType === "confirmation") {
-            subject = `Confirmation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n` +
-                   `📅 **Date et heure :** ${rdvDate}\n📍 **Lieu :** [Adresse ou lien visio si applicable]\n\n` +
-                   "Lors de cet échange, nous affinerons votre estimation en fonction des spécificités de votre bien et des tendances actuelles du marché.\n\n" +
-                   "Si vous avez des documents utiles (plan, acte de propriété, diagnostics...), n’hésitez pas à les préparer.\n\n" +
-                   `📞 **Besoin de nous contacter ?** Vous pouvez nous joindre au ${telephone}.\n\n` +
-                   "À très bientôt !\nGTI Immobilier";
-        } else if (emailType === "annulation") {
-            subject = `Annulation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous vous informons que votre rendez-vous d'estimation prévu le ${rdvDate} a été annulé.\n\n` +
-                   "Si vous souhaitez reprogrammer une nouvelle date, nous restons à votre disposition pour convenir d’un nouveau créneau.\n\n" +
-                   `📅 **Proposer un nouvel horaire ?** Répondez simplement à cet e-mail ou contactez-nous directement au ${telephone}.\n\n` +
-                   "Nous restons à votre écoute pour toute question.\n\nCordialement,\nGTI Immobilier";
-        } else {
-            subject = `Reprogrammons ensemble votre rendez-vous d’estimation - ${prenom} ${nom}`;
-            body = `Bonjour ${prenom},\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n` +
-                   `Votre rendez-vous initialement prévu le ${rdvDate} ne pourra pas avoir lieu à cette date.\n` +
-                   "Nous souhaitons échanger avec vous afin de **trouver ensemble un créneau qui vous convient**.\n\n" +
-                   `📞 **Pour convenir d’une nouvelle date, contactez-nous :**\n` +
-                   `- **Par téléphone :** ${telephone}\n` +
-                   `- **Par e-mail :** ${email}\n\n` +
-                   "Nous restons à votre disposition pour toute question et nous serions ravis d’échanger avec vous prochainement.\n\n" +
-                   "Cordialement,\nGTI Immobilier";
-        }
-
-        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            window.location.href = mailtoLink;
-        } else {
-            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.open(gmailLink, "_blank");
-        }
-
-        emailModal.style.display = "none";
-    });
-});
+}
