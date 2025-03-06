@@ -11,12 +11,12 @@ body {
 .header {
     background-color: #222222;
     text-align: center;
-    padding: 10px 0;
+    padding: 15px 0;
 }
 
-/* 🏠 Logo */
+/* 🏠 Logo Agrandi */
 .logo {
-    max-width: 130px;
+    max-width: 180px;
 }
 
 /* 📋 Conteneur principal */
@@ -38,14 +38,7 @@ body {
     color: #A50064;
     letter-spacing: 1px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 15px;
-}
-
-/* 💡 Meilleur interlignage */
-.intro-text {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 /* 📋 Infos du lead en deux colonnes */
@@ -62,7 +55,7 @@ body {
 
 .lead-info p {
     font-size: 16px;
-    padding: 8px;
+    padding: 10px;
     background-color: #F8F9FA;
     border-radius: 6px;
     margin-bottom: 10px;
@@ -77,15 +70,8 @@ body {
 }
 
 /* 🔹 Boutons modernes avec animation */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin: 25px 0;
-}
-
 .btn {
-    font-size: 16px;
+    font-size: 18px;
     padding: 14px 24px;
     border-radius: 8px;
     border: none;
@@ -94,7 +80,6 @@ body {
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Effet au survol */
 .btn:hover {
     transform: translateY(-3px);
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
@@ -118,6 +103,30 @@ body {
 
 .btn-email:hover {
     background-color: #DAA520;
+}
+
+/* ✅ Oui / Non avec couleurs flash */
+.btn-yes {
+    background-color: #00C853;
+    color: white;
+}
+
+.btn-yes:hover {
+    background-color: #009624;
+}
+
+.btn-no {
+    background-color: #FF1744;
+    color: white;
+}
+
+.btn-no:hover {
+    background-color: #D50000;
+}
+
+/* 📧 Modale cachée */
+.hidden {
+    display: none;
 }
 
 /* 📱 Responsive */
