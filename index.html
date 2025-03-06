@@ -10,7 +10,7 @@
 
     <header>
         <div class="header">
-            <img src="logo_groupe.png" alt="GTI Immobilier" class="logo">
+            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
         </div>
     </header>
 
@@ -33,17 +33,21 @@
             </p>
         </div>
 
-        <!-- 📋 Infos du lead -->
+        <!-- 📋 Infos du lead en deux colonnes -->
         <div class="lead-info">
-            <p id="nom">👤 Nom : </p>
-            <p id="prenom">🆔 Prénom : </p>
-            <p id="rdv">📅 Date de RDV : </p>
-            <p id="statutRDV">📆 Statut : </p>
-            <p id="telephone" style="display: none;">📞 Téléphone : <span id="phoneNumber"></span></p>
-            <p id="email" style="display: none;">📧 Email : <span id="emailAddress"></span></p>
+            <div class="lead-column">
+                <p id="nom">👤 <strong>Nom :</strong> </p>
+                <p id="prenom">🆔 <strong>Prénom :</strong> </p>
+                <p id="rdv">📅 <strong>Date de RDV :</strong> </p>
+            </div>
+            <div class="lead-column">
+                <p id="statutRDV">📆 <strong>Statut :</strong> </p>
+                <p id="telephone" style="display: none;">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
+                <p id="email" style="display: none;">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
+            </div>
         </div>
 
-        <!-- 🔹 Boutons d'action -->
+        <!-- 🔹 Boutons d'action avec un bon espacement -->
         <div class="actions">
             <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
@@ -63,7 +67,7 @@
             </div>
         </div>
 
-        <!-- ❓ Question avec choix Oui/Non -->
+        <!-- ❓ Question avec choix Oui/Non bien espacés -->
         <div class="question-rdv">
             <span>Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
             <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
