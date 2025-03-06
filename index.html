@@ -52,17 +52,19 @@
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
         </div>
 
-        <!-- 📧 Boîte de dialogue pour choisir un email -->
-        <div id="emailModal" class="modal">
+        <!-- 📧 Boîte de dialogue pour choisir un email (cachée au début) -->
+        <div id="emailModal" class="modal" style="display: none;">
             <div class="modal-content">
                 <h2>✉ Sélectionnez un modèle d'e-mail</h2>
-                <select id="emailType">
-                    <option value="confirmation">✅ Confirmer le RDV</option>
-                    <option value="annulation">❌ Annuler le RDV</option>
-                    <option value="reprogrammation">🔄 Reprogrammer le RDV</option>
-                </select>
-                <button id="envoyerMailFinal" class="btn btn-send">📩 Envoyer</button>
-                <button id="fermerModal" class="btn btn-close">❌ Fermer</button>
+                <div id="emailOptions" style="display: none;">
+                    <select id="emailType">
+                        <option value="confirmation">✅ Confirmer le RDV</option>
+                        <option value="annulation">❌ Annuler le RDV</option>
+                        <option value="reprogrammation">🔄 Reprogrammer le RDV</option>
+                    </select>
+                    <button id="envoyerMailFinal" class="btn btn-send">📩 Envoyer</button>
+                    <button id="fermerModal" class="btn btn-close">❌ Fermer</button>
+                </div>
             </div>
         </div>
 
