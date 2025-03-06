@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbxSwOLfYgQ7UjPFVF1kfkABV67cx0rL_60J2g1hs-j9OXxZVmUGdpi6PIX3P377gI5uxw/exec?action=${action}&row=${rowParam}`;
 
         fetch(url)
             .then(response => response.text())
