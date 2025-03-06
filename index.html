@@ -54,8 +54,8 @@
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
         </div>
 
-        <!-- 📧 Boîte de dialogue pour l'envoi de mail -->
-        <div id="emailModal" class="modal">
+        <!-- 📧 Boîte de dialogue pour l'envoi de mail (Cachée au départ) -->
+        <div id="emailModal" class="modal hidden">
             <div class="modal-content">
                 <h2>✉ Sélectionnez un modèle d'e-mail</h2>
                 <select id="emailType">
@@ -71,8 +71,8 @@
         <!-- ❓ Question avec choix Oui/Non bien espacés -->
         <div class="question-rdv">
             <span>Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
-            <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
-            <button id="annulerBtn" class="btn btn-danger">❌ Non</button>
+            <button id="confirmerBtn" class="btn btn-yes">✅ Oui</button>
+            <button id="annulerBtn" class="btn btn-no">❌ Non</button>
         </div>
 
     </div>
