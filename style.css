@@ -1,8 +1,8 @@
 /* 🌟 Fond général */
 body {
     font-family: Arial, sans-serif;
-    background-color: #F4F4F4; /* Fond gris clair */
-    color: #222222; /* Texte en noir profond */
+    background-color: #F4F4F4;
+    color: #222222;
     margin: 0;
     padding: 0;
 }
@@ -19,9 +19,9 @@ body {
     max-width: 130px;
 }
 
-/* 📋 Conteneur principal en blanc */
+/* 📋 Conteneur principal */
 .container {
-    max-width: 750px;
+    max-width: 800px;
     background-color: white;
     margin: 40px auto;
     padding: 25px;
@@ -38,73 +38,53 @@ body {
     gap: 20px;
 }
 
-.intro-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #222222;
-    text-align: center;
-}
-
-.intro-text {
-    font-size: 18px;
-    background-color: white;
-    padding: 15px;
-    border-left: 5px solid #A50064; /* Magenta GTI */
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    max-width: 85%;
-}
-
-.highlight {
-    color: #A50064;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-/* 📋 Infos du lead */
+/* 📋 Infos du lead en deux colonnes */
 .lead-info {
-    display: grid;
-    gap: 15px;
-    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    padding: 20px;
+}
+
+.lead-column {
+    width: 45%;
 }
 
 .lead-info p {
     font-size: 16px;
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
+    padding: 8px;
+    background-color: #F8F9FA;
+    border-radius: 6px;
+    margin-bottom: 10px;
 }
 
-/* 🔹 Boutons */
-.btn {
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+/* 🔹 Boutons d'action bien espacés */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0;
 }
 
 /* 📞 Bouton Appeler */
 .btn-call {
-    background-color: #A50064;
+    background-color: #FF5733;
     color: white;
 }
 
 .btn-call:hover {
-    background-color: #7A004B;
+    background-color: #C70039;
     transform: scale(1.05);
 }
 
 /* 📧 Bouton Envoyer un mail */
 .btn-email {
-    background-color: #C0C2C4;
-    color: #222222;
+    background-color: #FFC300;
+    color: black;
 }
 
 .btn-email:hover {
-    background-color: #A5A7A9;
+    background-color: #DAA520;
     transform: scale(1.05);
 }
 
@@ -136,4 +116,29 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba
+    background: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    width: 90%;
+    max-width: 420px;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+    }
+    .lead-info {
+        flex-direction: column;
+    }
+    .lead-column {
+        width: 100%;
+    }
+}
