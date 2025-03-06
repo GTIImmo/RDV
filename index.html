@@ -37,8 +37,8 @@
             </div>
             <div class="lead-column">
                 <p id="statutRDV">📆 <strong>Statut :</strong> </p>
-                <p id="telephone" style="display: none;">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
-                <p id="email" style="display: none;">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
+                <p id="telephone">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
+                <p id="email">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
             </div>
         </div>
 
@@ -48,14 +48,14 @@
             <span class="highlight">confirmer</span>, <span class="highlight">ajuster</span> ou <span class="highlight">reprogrammer</span> son rendez-vous.
         </p>
 
-        <!-- 🔹 Boutons d'action avec un bon espacement et effets -->
+        <!-- 🔹 Boutons d'action alignés -->
         <div class="actions">
             <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
         </div>
 
-        <!-- 📧 Boîte de dialogue pour l'envoi de mail (Cachée au départ) -->
-        <div id="emailModal" class="modal hidden">
+        <!-- 📧 Boîte de dialogue pour l'envoi de mail -->
+        <div id="emailModal" class="modal">
             <div class="modal-content">
                 <h2>✉ Sélectionnez un modèle d'e-mail</h2>
                 <select id="emailType">
