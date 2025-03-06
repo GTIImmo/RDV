@@ -75,13 +75,15 @@ document.addEventListener("DOMContentLoaded", function() {
         updateGoogleSheet("annuler");
     });
 
-    // Gestion de l'envoi d'e-mail avec sélection du modèle
+    // Gestion de l'affichage du menu déroulant et des boutons de la boîte modale
     const emailModal = document.getElementById("emailModal");
     const fermerModal = document.getElementById("fermerModal");
+    const emailOptions = document.getElementById("emailOptions"); // Div contenant le select et les boutons
 
     document.getElementById("envoyerMailBtn").addEventListener("click", function() {
         if (email !== "Non renseigné") {
             emailModal.style.display = "flex";
+            emailOptions.style.display = "block"; // Affiche le menu déroulant et les boutons
         } else {
             alert("📧 Adresse e-mail non disponible");
         }
@@ -89,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     fermerModal.addEventListener("click", function() {
         emailModal.style.display = "none";
+        emailOptions.style.display = "none"; // Cache à nouveau les options après fermeture
     });
 
     document.getElementById("envoyerMailFinal").addEventListener("click", function() {
@@ -131,5 +134,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         emailModal.style.display = "none";
+        emailOptions.style.display = "none"; // Cache à nouveau après envoi
     });
 });
