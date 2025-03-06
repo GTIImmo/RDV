@@ -14,14 +14,30 @@ document.addEventListener("DOMContentLoaded", function() {
         return cleaned.length === 10 ? cleaned : "Non renseigné"; // Vérifie si c'est un vrai numéro FR
     }
 
+    function formatDateForSheet(dateString) {
+        let date = new Date(dateString);
+        if (isNaN(date.getTime())) return "";
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+
     function updateGoogleSheet(action, newDate = "") {
         if (!confirm("Confirmer cette action ?")) return;
-        
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${params.get("row")}`;
-        if (newDate) {
-            url += `&rdv=${encodeURIComponent(newDate)}`;
+
+        let rowParam = params.get("row");
+        if (!rowParam) {
+            alert("❌ Erreur : Impossible d'envoyer la modification !");
+            return;
         }
-        
+
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
+
+        if (newDate) {
+            let formattedDate = formatDateForSheet(newDate);
+            url += `&rdv=${encodeURIComponent(formattedDate)}`;
+        }
+
+        console.log("📡 URL envoyée : " + url);
+
         fetch(url)
             .then(response => response.text())
             .then(result => {
@@ -29,22 +45,29 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert(result);
                 location.reload();
             })
-            .catch(error => console.error("❌ Erreur :", error));
+            .catch(error => console.error("❌ Erreur : ", error));
     }
 
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-    
+
+    // Affichage du numéro de téléphone correctement formaté
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
-    let phoneElement = document.getElementById("telephone");
-    let phoneNumberElement = document.getElementById("phoneNumber");
-    let emailElement = document.getElementById("email");
-    let emailAddressElement = document.getElementById("emailAddress");
 
-    // Boutons de gestion Google Sheets
+    if (telephone !== "Non renseigné") {
+        document.getElementById("telephone").style.display = "block";
+        document.getElementById("phoneNumber").textContent = telephone;
+    }
+
+    if (email !== "Non renseigné") {
+        document.getElementById("email").style.display = "block";
+        document.getElementById("emailAddress").textContent = email;
+    }
+
+    // Boutons de gestion
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
@@ -53,30 +76,17 @@ document.addEventListener("DOMContentLoaded", function() {
         updateGoogleSheet("annuler");
     });
 
-    // Bouton "Appeler"
-    document.getElementById("appelerBtn").addEventListener("click", function() {
-        if (telephone !== "Non renseigné") {
-            phoneElement.style.display = "block";
-            phoneNumberElement.textContent = telephone;
-            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-                window.location.href = `tel:${telephone}`;
-            } else {
-                alert(`📞 Composez ce numéro : ${telephone}`);
-            }
-        } else {
-            alert("📵 Numéro de téléphone non disponible");
-        }
+    // Si besoin d'un bouton "Modifier RDV"
+    document.getElementById("modifierBtn").addEventListener("click", function() {
+        document.getElementById("modifierSection").style.display = "block";
     });
 
-    // Bouton "Envoyer Email"
-    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
-        if (email !== "Non renseigné") {
-            emailElement.style.display = "block";
-            emailAddressElement.textContent = email;
-            let mailtoLink = `mailto:${email}?subject=Rendez-vous GTI Immobilier`;
-            window.location.href = mailtoLink;
-        } else {
-            alert("📧 Adresse e-mail non disponible");
+    document.getElementById("validerModifBtn").addEventListener("click", function() {
+        let nouvelleDate = document.getElementById("nouvelleDate").value;
+        if (!nouvelleDate) {
+            alert("Veuillez entrer une nouvelle date.");
+            return;
         }
+        updateGoogleSheet("modifier", nouvelleDate);
     });
 });
