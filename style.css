@@ -1,171 +1,133 @@
 /* 🌟 Fond général */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Fond général gris clair */
-    color: #333;
+    background-color: #F4F4F4; /* Fond gris clair */
+    color: #222222; /* Texte en noir profond */
     margin: 0;
     padding: 0;
 }
 
 /* 🌟 Bandeau du haut anthracite */
 .header {
-    background-color: #222; /* Anthracite */
+    background-color: #222222;
     text-align: center;
     padding: 10px 0;
 }
 
-/* 🏠 Logo réduit */
+/* 🏠 Logo */
 .logo {
-    max-width: 140px;
+    max-width: 130px;
 }
 
 /* 📋 Conteneur principal en blanc */
 .container {
-    max-width: 700px;
-    background-color: white; /* Fond blanc */
-    margin: 30px auto;
-    padding: 20px;
+    max-width: 750px;
+    background-color: white;
+    margin: 40px auto;
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
-/* 📢 Encadré dynamique pour le message d’intro */
-.info-text {
-    background: linear-gradient(135deg, #ff7f50, #ff6347); /* Dégradé orange/rouge */
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
+/* 🎯 Introduction stylisée */
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.intro-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222222;
     text-align: center;
+}
+
+.intro-text {
     font-size: 18px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
+    background-color: white;
+    padding: 15px;
+    border-left: 5px solid #A50064; /* Magenta GTI */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 85%;
 }
 
-/* 🏆 Style du titre principal */
-.info-text h2 {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-/* 🏁 Texte d'action dynamique */
-.action-text {
-    font-size: 20px;
-    font-weight: bold;
-    color: #ffeb3b; /* Jaune */
-    margin-top: 10px;
-}
-
-/* 🚀 Mise en avant des actions principales */
 .highlight {
-    color: #ffeb3b;
+    color: #A50064;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-/* 🔥 Style du message "Lead chaud" */
-.lead-hot {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
 }
 
 /* 📋 Infos du lead */
 .lead-info {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 10px 0;
+    gap: 15px;
+    padding: 15px 0;
 }
 
 .lead-info p {
     font-size: 16px;
-    padding: 10px;
+    padding: 12px;
     border-bottom: 1px solid #ddd;
     text-align: center;
 }
 
-/* 🎯 Question + boutons alignés */
-.question-rdv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #222;
-}
-
-/* ✅ Bouton "Oui" */
-.btn-success {
-    background-color: #00C853;
-    color: white;
+/* 🔹 Boutons */
+.btn {
     font-size: 16px;
-    padding: 12px 18px;
+    padding: 12px 20px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s, transform 0.2s;
+}
+
+/* 📞 Bouton Appeler */
+.btn-call {
+    background-color: #A50064;
+    color: white;
+}
+
+.btn-call:hover {
+    background-color: #7A004B;
+    transform: scale(1.05);
+}
+
+/* 📧 Bouton Envoyer un mail */
+.btn-email {
+    background-color: #C0C2C4;
+    color: #222222;
+}
+
+.btn-email:hover {
+    background-color: #A5A7A9;
+    transform: scale(1.05);
+}
+
+/* ✅ Oui / Non */
+.btn-success {
+    background-color: #00C853;
+    color: white;
 }
 
 .btn-success:hover {
     background-color: #009624;
 }
 
-/* ❌ Bouton "Non" */
 .btn-danger {
     background-color: #D90429;
     color: white;
-    font-size: 16px;
-    padding: 12px 18px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
 }
 
 .btn-danger:hover {
     background-color: #B10221;
 }
 
-/* 🌟 Style des boutons "Appeler" et "Envoyer un mail" */
-.btn-call {
-    background-color: #007BFF;
-    color: white;
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-}
-
-.btn-call:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-.btn-email {
-    background-color: #28A745;
-    color: white;
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s;
-}
-
-.btn-email:hover {
-    background-color: #1e7e34;
-    transform: scale(1.05);
-}
-
-/* 🌟 Boîte modale pour le choix d'email */
+/* 📧 Boîte de dialogue */
 .modal {
     display: none;
     position: fixed;
@@ -174,70 +136,4 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    width: 90%;
-    max-width: 420px; /* Augmenté pour un meilleur confort visuel */
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-/* 🌟 Style du menu déroulant dans la modale */
-select#emailType {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 15px;
-}
-
-/* Effet au survol */
-select#emailType:hover {
-    border-color: #F77F00;
-}
-
-/* Style du menu déroulant quand il est actif */
-select#emailType:focus {
-    border-color: #F77F00;
-    box-shadow: 0 0 10px rgba(247, 127, 0, 0.3);
-}
-
-/* Amélioration du style des options */
-select#emailType option {
-    font-size: 16px;
-    padding: 8px;
-    background-color: white;
-    color: #333;
-}
-
-/* 📋 Section des boutons d'action */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* 📱 Responsive */
-@media screen and (max-width: 600px) {
-    .actions {
-        flex-direction: column;
-    }
-    
-    select#emailType {
-        font-size: 18px;
-    }
-}
+    background: rgba
