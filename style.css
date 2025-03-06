@@ -30,23 +30,45 @@ body {
     text-align: center;
 }
 
-/* 📋 Titre principal */
-h1 {
-    font-size: 22px;
-    color: #F77F00;
+/* 📢 Encadré dynamique pour le message d’intro */
+.info-text {
+    background: linear-gradient(135deg, #ff7f50, #ff6347); /* Dégradé orange/rouge */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
     text-align: center;
+    font-size: 18px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
 }
 
-/* ✍️ Explication pédagogique */
-.info-text {
-    font-size: 16px;
-    background-color: #f8f8f8;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.5;
-    border-left: 4px solid #F77F00;
+/* 🏆 Style du titre principal */
+.info-text h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* 🏁 Texte d'action dynamique */
+.action-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffeb3b; /* Jaune */
+    margin-top: 10px;
+}
+
+/* 🚀 Mise en avant des actions principales */
+.highlight {
+    color: #ffeb3b;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* 🔥 Style du message "Lead chaud" */
+.lead-hot {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
 /* 📋 Infos du lead */
