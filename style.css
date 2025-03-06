@@ -1,21 +1,22 @@
-/* 🌟 Fond général (bandeau anthracite, contenu blanc) */
+/* 🌟 Fond général */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Fond global gris clair */
+    background-color: #f4f4f4; /* Fond général gris clair */
     color: #333;
     margin: 0;
     padding: 0;
 }
 
-/* 🌟 Bandeau du haut en anthracite avec le logo */
+/* 🌟 Bandeau du haut anthracite */
 .header {
     background-color: #222; /* Anthracite */
     text-align: center;
     padding: 10px 0;
 }
 
+/* 🏠 Logo réduit */
 .logo {
-    max-width: 140px; /* Logo plus petit */
+    max-width: 140px;
 }
 
 /* 📋 Conteneur principal en blanc */
@@ -25,7 +26,7 @@ body {
     margin: 30px auto;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
     text-align: center;
 }
 
@@ -39,7 +40,7 @@ h1 {
 /* ✍️ Explication pédagogique */
 .info-text {
     font-size: 16px;
-    background-color: #f4f4f4;
+    background-color: #f8f8f8;
     padding: 12px;
     border-radius: 8px;
     text-align: center;
@@ -63,7 +64,7 @@ h1 {
     text-align: center;
 }
 
-/* 🎯 Question + boutons "Oui / Non" bien alignés */
+/* 🎯 Question + boutons alignés */
 .question-rdv {
     display: flex;
     justify-content: center;
@@ -72,9 +73,6 @@ h1 {
     padding: 12px;
     border-radius: 8px;
     margin-top: 20px;
-}
-
-.question-text {
     font-size: 18px;
     font-weight: bold;
     color: #222;
@@ -112,9 +110,10 @@ h1 {
     background-color: #B10221;
 }
 
-/* 📱 Responsive */
+/* 📱 Responsive : Ajustement sur mobile */
 @media screen and (max-width: 600px) {
     .question-rdv {
         flex-direction: column;
+        gap: 10px;
     }
 }
