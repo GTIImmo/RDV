@@ -14,11 +14,16 @@
     </header>
 
     <div class="container">
-        <h1>📅 Avez-vous convenu d'un rendez-vous avec ce lead ?</h1>
-        <p style="font-size: 16px; color: #333; text-align: center;">
-            Merci de nous indiquer si un rendez-vous est bien fixé avec ce contact. Cela nous permet d’assurer un bon suivi client !
-        </p>
+        <h1>📅 Gestion du Rendez-vous</h1>
 
+        <!-- 🔹 Message explicatif pour le commercial -->
+        <div class="info-box">
+            <p>Ce rendez-vous a été demandé par ce lead après avoir complété notre formulaire d’estimation en ligne.</p>
+            <p>Nous l'avons recontacté pour affiner son projet et lui proposer un échange. À vous de confirmer si un RDV a bien été convenu.</p>
+            <p><strong>Merci de vous rapprocher rapidement de ce contact pour confirmer, décaler ou annuler le RDV.</strong></p>
+        </div>
+
+        <!-- 🔹 Informations du lead -->
         <div class="lead-info">
             <p id="nom">👤 Nom : </p>
             <p id="prenom">🆔 Prénom : </p>
@@ -26,9 +31,13 @@
             <p id="statutRDV">📆 Statut : </p>
         </div>
 
-        <div class="buttons">
-            <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
-            <button id="annulerBtn" class="btn btn-danger">❌ Non</button>
+        <!-- 🔹 Question avec boutons alignés horizontalement -->
+        <div class="question-rdv">
+            <p>✅ Avez-vous convenu d’un RDV ?</p>
+            <div class="buttons">
+                <button id="confirmerBtn" class="btn btn-success">Oui</button>
+                <button id="annulerBtn" class="btn btn-danger">Non</button>
+            </div>
         </div>
     </div>
 
