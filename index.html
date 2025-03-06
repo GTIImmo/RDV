@@ -17,10 +17,9 @@
     <div class="container">
         <h1>📅 Gestion du Rendez-vous</h1>
 
-        <!-- Explication pédagogique pour le commercial -->
         <p class="info-text">
-            Ce rendez-vous a été pris suite à une demande d'estimation en ligne. <br>
-            Après nos relances, nous avons proposé d’affiner l’estimation avec le lead. <br>
+            Ce rendez-vous a été pris suite à une **demande d'estimation en ligne**. <br>
+            Suite à nos relances, nous avons proposé d’affiner l’estimation avec le lead. <br>
             Il est **important** de le contacter rapidement pour **confirmer, décaler ou annuler**.
         </p>
 
@@ -33,9 +32,29 @@
             <p id="email" style="display: none;">📧 Email : <span id="emailAddress"></span></p>
         </div>
 
-        <!-- Question avec boutons bien alignés -->
+        <!-- Boutons Appeler et Envoyer un Mail -->
+        <div class="actions">
+            <button id="appelerBtn" class="btn btn-info">📞 Appeler</button>
+            <button id="envoyerMailBtn" class="btn btn-primary">📧 Envoyer un mail</button>
+        </div>
+
+        <!-- Boîte de dialogue pour choisir un email -->
+        <div id="emailModal" class="modal">
+            <div class="modal-content">
+                <h2>✉ Sélectionnez un modèle d'e-mail</h2>
+                <select id="emailType">
+                    <option value="confirmation">✅ Confirmer le RDV</option>
+                    <option value="annulation">❌ Annuler le RDV</option>
+                    <option value="reprogrammation">🔄 Reprogrammer le RDV</option>
+                </select>
+                <button id="envoyerMailFinal" class="btn btn-success">📩 Envoyer</button>
+                <button id="fermerModal" class="btn btn-danger">❌ Fermer</button>
+            </div>
+        </div>
+
+        <!-- Question avec boutons alignés -->
         <div class="question-rdv">
-            <span class="question-text">Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
+            <span>Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
             <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
             <button id="annulerBtn" class="btn btn-danger">❌ Non</button>
         </div>
