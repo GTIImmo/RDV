@@ -15,46 +15,30 @@
     </header>
 
     <div class="container">
-        <!-- 📢 Introduction -->
-        <div class="info-container">
-            <h2 class="intro-title">📢 Un futur vendeur a besoin de vous !</h2>
+        <h1>📅 Gestion du Rendez-vous</h1>
 
-            <p class="intro-text">
-                Ce rendez-vous a été pris suite à une <span class="highlight">demande d'estimation en ligne</span>.
-            </p>
-
-            <p class="intro-text">
-                Après quelques échanges, nous lui avons proposé d’affiner son projet.
-            </p>
-        </div>
-
-        <!-- 📋 Infos du lead en deux colonnes -->
-        <div class="lead-info">
-            <div class="lead-column">
-                <p id="nom">👤 <strong>Nom :</strong> </p>
-                <p id="prenom">🆔 <strong>Prénom :</strong> </p>
-                <p id="rdv">📅 <strong>Date de RDV :</strong> </p>
-            </div>
-            <div class="lead-column">
-                <p id="statutRDV">📆 <strong>Statut :</strong> </p>
-                <p id="telephone">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
-                <p id="email">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
-            </div>
-        </div>
-
-        <!-- 🚀 Phrase clé sous les données du lead -->
-        <p class="action-message">
-            🚀 <strong>C'est le moment d'agir !</strong> Contactez-le rapidement pour 
-            <span class="highlight">confirmer</span>, <span class="highlight">ajuster</span> ou <span class="highlight">reprogrammer</span> son rendez-vous.
+        <p class="info-text">
+            Ce rendez-vous a été pris suite à une **demande d'estimation en ligne**. <br>
+            Suite à nos relances, nous avons proposé d’affiner l’estimation avec le lead. <br>
+            Il est **important** de le contacter rapidement pour **confirmer, décaler ou annuler**.
         </p>
 
-        <!-- 🔹 Boutons d'action alignés -->
+        <div class="lead-info">
+            <p id="nom">👤 Nom : </p>
+            <p id="prenom">🆔 Prénom : </p>
+            <p id="rdv">📅 Date de RDV : </p>
+            <p id="statutRDV">📆 Statut : </p>
+            <p id="telephone" style="display: none;">📞 Téléphone : <span id="phoneNumber"></span></p>
+            <p id="email" style="display: none;">📧 Email : <span id="emailAddress"></span></p>
+        </div>
+
+        <!-- Boutons "Appeler" et "Envoyer un Mail" -->
         <div class="actions">
             <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
         </div>
 
-        <!-- 📧 Boîte de dialogue pour l'envoi de mail -->
+        <!-- Boîte de dialogue pour choisir un email (cachée par défaut) -->
         <div id="emailModal" class="modal">
             <div class="modal-content">
                 <h2>✉ Sélectionnez un modèle d'e-mail</h2>
@@ -68,11 +52,11 @@
             </div>
         </div>
 
-        <!-- ❓ Question avec choix Oui/Non bien espacés -->
+        <!-- Question avec boutons alignés -->
         <div class="question-rdv">
             <span>Avez-vous convenu d’un rendez-vous avec ce lead ?</span>
-            <button id="confirmerBtn" class="btn btn-yes">✅ Oui</button>
-            <button id="annulerBtn" class="btn btn-no">❌ Non</button>
+            <button id="confirmerBtn" class="btn btn-success">✅ Oui</button>
+            <button id="annulerBtn" class="btn btn-danger">❌ Non</button>
         </div>
 
     </div>
