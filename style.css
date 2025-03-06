@@ -1,3 +1,96 @@
+/* 🌟 Fond général */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* 🌟 Bandeau du haut anthracite avec logo plus grand */
+.header {
+    background-color: #222;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.logo {
+    max-width: 180px; /* Logo agrandi */
+}
+
+/* 📋 Conteneur principal */
+.container {
+    max-width: 800px;
+    background-color: white;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* 📋 Infos du lead en 2 colonnes */
+.lead-info {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin: 20px 0;
+}
+
+.lead-column {
+    width: 48%;
+}
+
+.lead-column p {
+    font-size: 16px;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 🎯 Boutons avec couleurs distinctes */
+.btn-call {
+    background-color: #007BFF;
+    color: white;
+}
+
+.btn-email {
+    background-color: #17A2B8;
+    color: white;
+}
+
+.btn-send {
+    background-color: #28A745;
+    color: white;
+}
+
+.btn-close {
+    background-color: #DC3545;
+    color: white;
+}
+
+.btn-confirm {
+    background-color: #28A745;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #FF5722;
+    color: white;
+}
+
+/* 🌟 Effets au survol */
+button {
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
 /* 🌟 Effet de fond flouté pour la boîte modale */
 .modal {
     display: none;
@@ -7,8 +100,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    max-width: 420px; /* Taille optimisée pour PC */
-    background: rgba(255, 255, 255, 0.95); /* Blanc légèrement transparent */
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 12px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.3s ease-in-out;
@@ -47,12 +140,7 @@ select#emailType {
     margin-bottom: 15px;
 }
 
-/* 🖱️ Effet au survol */
-select#emailType:hover {
-    border-color: #F77F00;
-}
-
-/* 🌟 Boutons modernisés */
+/* 📩 Amélioration de l'affichage des boutons */
 .modal-buttons {
     display: flex;
     flex-direction: column;
@@ -60,40 +148,45 @@ select#emailType:hover {
     margin-top: 15px;
 }
 
-.btn-send {
-    background-color: #28A745;
-    color: white;
-    font-size: 16px;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-send:hover {
-    background-color: #218838;
-}
-
-.btn-close {
-    background-color: #DC3545;
-    color: white;
-    font-size: 16px;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.btn-close:hover {
-    background-color: #C82333;
-}
-
 /* 📱 Responsive : ajustement pour mobile */
 @media screen and (max-width: 600px) {
     .modal {
         width: 90%;
         max-width: none;
+    }
+
+    .modal-buttons {
+        flex-direction: column; /* Empile les boutons sur mobile */
+    }
+}
+
+/* 🌟 Textes d'introduction et de call-to-action */
+.info-text {
+    background-color: #f8f8f8;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-weight: bold;
+    border-left: 4px solid #F77F00;
+}
+
+/* 📋 Section des actions principales */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* 📱 Responsive : ajustement pour mobile */
+@media screen and (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+    }
+
+    select#emailType {
+        font-size: 18px;
     }
 }
