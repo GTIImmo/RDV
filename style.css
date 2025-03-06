@@ -5,6 +5,10 @@ body {
     color: #222222;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* 🌟 Bandeau du haut anthracite */
@@ -16,72 +20,47 @@ body {
 
 /* 🏠 Logo Agrandi */
 .logo {
-    max-width: 180px;
+    max-width: 200px;
 }
 
 /* 📋 Conteneur principal */
 .container {
-    max-width: 800px;
+    max-width: 700px;
     background-color: white;
-    margin: 40px auto;
+    margin: 20px auto;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
-/* 🎯 Introduction stylisée avec effet visuel */
-.intro-title {
-    font-size: 26px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #A50064;
-    letter-spacing: 1px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-}
-
-/* 📋 Infos du lead en deux colonnes */
-.lead-info {
+/* 🔹 Boutons d'action modernisés */
+.actions {
     display: flex;
-    justify-content: space-between;
-    text-align: left;
-    padding: 20px;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 20px 0;
 }
 
-.lead-column {
-    width: 45%;
-}
-
-.lead-info p {
-    font-size: 16px;
-    padding: 10px;
-    background-color: #F8F9FA;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-
-/* 🚀 Phrase clé bien mise en avant */
-.action-message {
-    font-size: 18px;
-    font-weight: bold;
-    color: #A50064;
-    margin-top: 20px;
-}
-
-/* 🔹 Boutons modernes avec animation */
+/* Style général des boutons */
 .btn {
     font-size: 18px;
-    padding: 14px 24px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     transition: 0.3s ease-in-out;
     box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
+/* Effet au survol */
 .btn:hover {
-    transform: translateY(-3px);
+    transform: scale(1.05);
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
@@ -89,6 +68,8 @@ body {
 .btn-call {
     background-color: #FF5733;
     color: white;
+    flex: 1;
+    min-width: 160px;
 }
 
 .btn-call:hover {
@@ -99,6 +80,8 @@ body {
 .btn-email {
     background-color: #FFC300;
     color: black;
+    flex: 1;
+    min-width: 160px;
 }
 
 .btn-email:hover {
@@ -109,35 +92,35 @@ body {
 .btn-yes {
     background-color: #00C853;
     color: white;
-}
-
-.btn-yes:hover {
-    background-color: #009624;
+    width: 100px;
 }
 
 .btn-no {
     background-color: #FF1744;
     color: white;
+    width: 100px;
 }
 
-.btn-no:hover {
-    background-color: #D50000;
-}
-
-/* 📧 Modale cachée */
-.hidden {
+/* 📧 Boîte modale */
+.modal {
     display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* 📱 Responsive */
 @media screen and (max-width: 600px) {
     .actions {
         flex-direction: column;
-    }
-    .lead-info {
-        flex-direction: column;
-    }
-    .lead-column {
-        width: 100%;
+        align-items: center;
     }
 }
