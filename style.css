@@ -1,36 +1,82 @@
-/* ✅ Encadré d'explication */
-.info-box {
-    background-color: #f9f9f9;
-    border-left: 5px solid #F77F00;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    font-size: 16px;
+/* 🌟 Fond anthracite et mise à jour globale */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: white;
+    margin: 0;
+    padding: 0;
 }
 
-/* 📋 Question et boutons alignés */
+/* 🌟 Bandeau du logo (taille réduite) */
+.header {
+    background-color: #222;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.logo {
+    max-width: 150px; /* Réduction du logo */
+}
+
+/* 📋 Conteneur principal */
+.container {
+    max-width: 700px;
+    background-color: #444; /* Gris foncé */
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* 📋 Titre principal */
+h1 {
+    font-size: 22px;
+    color: #F77F00;
+    text-align: center;
+}
+
+/* ✍️ Explication pédagogique */
+.info-text {
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* 📋 Infos du lead */
+.lead-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.lead-info p {
+    font-size: 16px;
+    padding: 8px;
+    border-bottom: 1px solid #666;
+    text-align: center;
+}
+
+/* 🎯 Question et boutons alignés */
 .question-rdv {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background: #fff;
-    padding: 15px;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
     border-radius: 8px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
 }
 
-.question-rdv p {
+.question-text {
     font-size: 18px;
     font-weight: bold;
-    color: #333;
-    margin: 0;
-}
-
-/* 🎨 Boutons alignés horizontalement */
-.buttons {
-    display: flex;
-    gap: 10px;
 }
 
 /* ✅ Bouton "Oui" */
@@ -38,9 +84,11 @@
     background-color: #00C853;
     color: white;
     font-size: 16px;
-    padding: 12px;
-    width: 80px;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
 }
 
 .btn-success:hover {
@@ -52,11 +100,20 @@
     background-color: #D90429;
     color: white;
     font-size: 16px;
-    padding: 12px;
-    width: 80px;
-    border-radius: 8px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
 }
 
 .btn-danger:hover {
     background-color: #B10221;
+}
+
+/* 📱 Responsive */
+@media screen and (max-width: 600px) {
+    .question-rdv {
+        flex-direction: column;
+    }
 }
