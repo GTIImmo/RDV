@@ -32,13 +32,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Récupération et affichage des informations du lead
-    document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
-    document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
-    document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
-    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
-
+    let prenom = getParamValue("prenom");
+    let nom = getParamValue("nom");
+    let rdvDate = getParamValue("rdv");
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
+
+    document.getElementById("nom").textContent += ` ${nom}`;
+    document.getElementById("prenom").textContent += ` ${prenom}`;
+    document.getElementById("rdv").textContent += ` ${rdvDate}`;
+    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
     if (telephone !== "Non renseigné") {
         document.getElementById("telephone").style.display = "block";
@@ -93,23 +96,36 @@ document.addEventListener("DOMContentLoaded", function() {
         let subject, body;
 
         if (emailType === "confirmation") {
-            subject = "Confirmation de votre rendez-vous";
-            body = "Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier";
+            subject = `Confirmation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n` +
+                   `📅 **Date et heure :** ${rdvDate}\n📍 **Lieu :** [Adresse ou lien visio si applicable]\n\n` +
+                   "Lors de cet échange, nous affinerons votre estimation en fonction des spécificités de votre bien et des tendances actuelles du marché.\n\n" +
+                   "Si vous avez des documents utiles (plan, acte de propriété, diagnostics...), n’hésitez pas à les préparer.\n\n" +
+                   `📞 **Besoin de nous contacter ?** Vous pouvez nous joindre au ${telephone}.\n\n` +
+                   "À très bientôt !\nGTI Immobilier";
         } else if (emailType === "annulation") {
-            subject = "Annulation de votre rendez-vous";
-            body = "Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier";
+            subject = `Annulation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous informons que votre rendez-vous d'estimation prévu le ${rdvDate} a été annulé.\n\n` +
+                   "Si vous souhaitez reprogrammer une nouvelle date, nous restons à votre disposition pour convenir d’un nouveau créneau.\n\n" +
+                   `📅 **Proposer un nouvel horaire ?** Répondez simplement à cet e-mail ou contactez-nous directement au ${telephone}.\n\n` +
+                   "Nous restons à votre écoute pour toute question.\n\nCordialement,\nGTI Immobilier";
         } else {
-            subject = "Reprogrammation de votre rendez-vous";
-            body = "Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier";
+            subject = `Reprogrammons ensemble votre rendez-vous d’estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n` +
+                   `Votre rendez-vous initialement prévu le ${rdvDate} ne pourra pas avoir lieu à cette date.\n` +
+                   "Nous souhaitons échanger avec vous afin de **trouver ensemble un créneau qui vous convient**.\n\n" +
+                   `📞 **Pour convenir d’une nouvelle date, contactez-nous :**\n` +
+                   `- **Par téléphone :** ${telephone}\n` +
+                   `- **Par e-mail :** ${email}\n\n` +
+                   "Nous restons à votre disposition pour toute question et nous serions ravis d’échanger avec vous prochainement.\n\n" +
+                   "Cordialement,\nGTI Immobilier";
         }
 
         let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
         if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            // 📱 Mobile : Ouvre l'application e-mail par défaut
             window.location.href = mailtoLink;
         } else {
-            // 🖥️ PC : Ouvre Gmail directement avec l'e-mail prérempli
             let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             window.open(gmailLink, "_blank");
         }
