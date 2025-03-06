@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&row=${rowParam}`;
 
         fetch(url)
             .then(response => response.text())
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .catch(error => console.error("❌ Erreur : ", error));
     }
 
-    // Récupération des informations du lead
+    // Récupération et affichage des informations du lead
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
 
-    // Affichage du téléphone et email si disponibles
     if (telephone !== "Non renseigné") {
         document.getElementById("telephone").style.display = "block";
         document.getElementById("phoneNumber").textContent = telephone;
@@ -64,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Gestion des confirmations et annulations
+    // Gestion de la confirmation et annulation du RDV
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
@@ -73,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function() {
         updateGoogleSheet("annuler");
     });
 
-    // Gestion de l'envoi d'email avec modèles
+    // Gestion de l'envoi d'e-mail avec sélection du modèle
     const emailModal = document.getElementById("emailModal");
     const fermerModal = document.getElementById("fermerModal");
 
@@ -91,21 +90,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("envoyerMailFinal").addEventListener("click", function() {
         let emailType = document.getElementById("emailType").value;
-        let subject, body;
+        let subject = emailType === "confirmation" ? "Confirmation de votre rendez-vous" : emailType === "annulation" ? "Annulation de votre rendez-vous" : "Reprogrammation de votre rendez-vous";
+        let body = `Bonjour,\n\nNous vous informons que ${subject.toLowerCase()}.\n\nCordialement,\nGTI Immobilier`;
 
-        if (emailType === "confirmation") {
-            subject = "Confirmation de votre rendez-vous";
-            body = "Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier";
-        } else if (emailType === "annulation") {
-            subject = "Annulation de votre rendez-vous";
-            body = "Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier";
-        } else {
-            subject = "Reprogrammation de votre rendez-vous";
-            body = "Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier";
-        }
-
-        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailtoLink;
+        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         emailModal.style.display = "none";
     });
 });
