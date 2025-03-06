@@ -7,20 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function formatPhoneNumber(number) {
         if (!number || number === "Non renseigné") return "Non renseigné";
-        let cleaned = number.replace(/[^0-9]/g, ""); // Supprime tout sauf les chiffres
-        if (cleaned.length === 9) {
-            return "0" + cleaned; // Ajoute un "0" devant si nécessaire
-        }
-        return cleaned.length === 10 ? cleaned : "Non renseigné"; // Vérifie si c'est un vrai numéro FR
+        let cleaned = number.replace(/[^0-9]/g, "");
+        return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
     }
 
-    function formatDateForSheet(dateString) {
-        let date = new Date(dateString);
-        if (isNaN(date.getTime())) return "";
-        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-    }
-
-    function updateGoogleSheet(action, newDate = "") {
+    function updateGoogleSheet(action) {
         if (!confirm("Confirmer cette action ?")) return;
 
         let rowParam = params.get("row");
@@ -31,32 +22,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
         let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
 
-        if (newDate) {
-            let formattedDate = formatDateForSheet(newDate);
-            url += `&rdv=${encodeURIComponent(formattedDate)}`;
-        }
-
-        console.log("📡 URL envoyée : " + url);
-
         fetch(url)
             .then(response => response.text())
             .then(result => {
-                console.log("✅ Réponse du serveur : " + result);
                 alert(result);
                 location.reload();
             })
             .catch(error => console.error("❌ Erreur : ", error));
     }
 
+    // Récupération des informations du lead
     document.getElementById("nom").textContent += ` ${getParamValue("nom")}`;
     document.getElementById("prenom").textContent += ` ${getParamValue("prenom")}`;
     document.getElementById("rdv").textContent += ` ${getParamValue("rdv")}`;
     document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
-    // Affichage du numéro de téléphone correctement formaté
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
 
+    // Affichage du téléphone et email si disponibles
     if (telephone !== "Non renseigné") {
         document.getElementById("telephone").style.display = "block";
         document.getElementById("phoneNumber").textContent = telephone;
@@ -67,7 +51,20 @@ document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("emailAddress").textContent = email;
     }
 
-    // Boutons de gestion
+    // Gestion de l'appel
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (telephone !== "Non renseigné") {
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                window.location.href = `tel:${telephone}`;
+            } else {
+                alert(`📞 Composez ce numéro : ${telephone}`);
+            }
+        } else {
+            alert("📵 Numéro de téléphone non disponible");
+        }
+    });
+
+    // Gestion des confirmations et annulations
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
@@ -76,17 +73,39 @@ document.addEventListener("DOMContentLoaded", function() {
         updateGoogleSheet("annuler");
     });
 
-    // Si besoin d'un bouton "Modifier RDV"
-    document.getElementById("modifierBtn").addEventListener("click", function() {
-        document.getElementById("modifierSection").style.display = "block";
+    // Gestion de l'envoi d'email avec modèles
+    const emailModal = document.getElementById("emailModal");
+    const fermerModal = document.getElementById("fermerModal");
+
+    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
+        if (email !== "Non renseigné") {
+            emailModal.style.display = "flex";
+        } else {
+            alert("📧 Adresse e-mail non disponible");
+        }
     });
 
-    document.getElementById("validerModifBtn").addEventListener("click", function() {
-        let nouvelleDate = document.getElementById("nouvelleDate").value;
-        if (!nouvelleDate) {
-            alert("Veuillez entrer une nouvelle date.");
-            return;
+    fermerModal.addEventListener("click", function() {
+        emailModal.style.display = "none";
+    });
+
+    document.getElementById("envoyerMailFinal").addEventListener("click", function() {
+        let emailType = document.getElementById("emailType").value;
+        let subject, body;
+
+        if (emailType === "confirmation") {
+            subject = "Confirmation de votre rendez-vous";
+            body = "Bonjour,\n\nNous confirmons votre rendez-vous pour l'estimation de votre bien immobilier. Nous restons à votre disposition pour toute information complémentaire.\n\nCordialement,\nGTI Immobilier";
+        } else if (emailType === "annulation") {
+            subject = "Annulation de votre rendez-vous";
+            body = "Bonjour,\n\nNous vous informons que votre rendez-vous pour l'estimation de votre bien immobilier a été annulé. N'hésitez pas à nous contacter pour en fixer un autre.\n\nCordialement,\nGTI Immobilier";
+        } else {
+            subject = "Reprogrammation de votre rendez-vous";
+            body = "Bonjour,\n\nNous vous proposons de reprogrammer votre rendez-vous pour l'estimation de votre bien immobilier. Veuillez nous indiquer votre disponibilité.\n\nCordialement,\nGTI Immobilier";
         }
-        updateGoogleSheet("modifier", nouvelleDate);
+
+        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
+        emailModal.style.display = "none";
     });
 });
