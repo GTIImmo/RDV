@@ -148,6 +148,35 @@ select#emailType {
     margin-top: 15px;
 }
 
+/* 🌟 Texte d'introduction centré */
+.info-text {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center; /* Centre le texte */
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-weight: bold;
+    border-left: 6px solid #F77F00;
+}
+
+/* 📢 Mise en valeur du titre principal */
+.info-text h2 {
+    font-size: 22px;
+    color: #D35400;
+    font-weight: bold;
+    text-align: center; /* Centre également le titre */
+}
+
+/* 🚀 "C'est le moment d'agir" en plus gros */
+.important-text {
+    font-size: 20px;
+    color: #D35400;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+
 /* 🌟 Section encadrée pour la question "Avez-vous convenu ?" */
 .question-container {
     background-color: #fff4e6;
