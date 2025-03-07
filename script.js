@@ -14,14 +14,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action) {
         if (!confirm("Confirmer cette action ?")) return;
 
-        let idEmailParam = params.get("idEmail"); // Récupérer l'ID Email
-
-        if (!idEmailParam) {
+        let rowParam = params.get("row");
+        if (!rowParam) {
             alert("❌ Erreur : Impossible d'envoyer la modification !");
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&idEmail=${idEmailParam}`;
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
 
         fetch(url)
             .then(response => response.text())
