@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let rdvDate = getParamValue("rdv");
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
+    let idEmail = getParamValue("id_email");
+    console.log("🆔 ID Email récupéré :", idEmail);
+
 
     let nomElement = safeGetElement("nom");
     let prenomElement = safeGetElement("prenom");
