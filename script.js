@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // URL du script Google Apps Script avec ID MAIL uniquement
-        let url = `https://script.google.com/macros/s/AKfycbzivTJGoBYA8oYyM9WcpKnwhV2Ok-0G2X_WPBZ961y2hds7bLDFw40V4wEknrdUPmxA/exec?action=${action}&email=${encodeURIComponent(emailParam)}`;
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&email=${encodeURIComponent(emailParam)}`;
 
         fetch(url)
             .then(response => response.text())
