@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateGoogleSheet(action) {
         if (!confirm("Confirmer cette action ?")) return;
 
-        let emailParam = params.get("email"); // Utilisation de l'ID MAIL au lieu de row
+        let idEmailParam = params.get("idEmail");
 
-        if (!emailParam) {
+        if (!idEmailParam) {
             alert("❌ Erreur : Impossible d'envoyer la modification !");
             return;
         }
 
-        // URL du script Google Apps Script avec ID MAIL uniquement
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&email=${encodeURIComponent(emailParam)}`;
+        // URL du script Google Apps Script avec sécurisation (ID Email uniquement)
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&idEmail=${encodeURIComponent(idEmailParam)}`;
 
         fetch(url)
             .then(response => response.text())
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Gestion de la confirmation et annulation du RDV
+    // Gestion de la confirmation et annulation du RDV avec vérification par ID Email
     document.getElementById("confirmerBtn").addEventListener("click", function() {
         updateGoogleSheet("confirmer");
     });
