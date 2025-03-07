@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("📢 Début de l'exécution du script...");
-
     const params = new URLSearchParams(window.location.search);
 
     function getParamValue(key) {
@@ -13,87 +11,129 @@ document.addEventListener("DOMContentLoaded", function() {
         return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
     }
 
-    function safeGetElement(id) {
-        let elem = document.getElementById(id);
-        console.log(`🔎 Vérification de ${id} :`, elem ? "✅ Trouvé" : "❌ Introuvable");
-        return elem;
-    }
-
     function updateGoogleSheet(action) {
         if (!confirm("Confirmer cette action ?")) return;
 
-        let idEmailParam = getParamValue("id_email");
-        console.log("🔍 ID Email envoyé :", idEmailParam);
-
-        if (!idEmailParam) {
+        let rowParam = params.get("row");
+        if (!rowParam) {
             alert("❌ Erreur : Impossible d'envoyer la modification !");
             return;
         }
 
-        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&id_email=${idEmailParam}`;
-
-        console.log("📡 URL envoyée :", url);
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
 
         fetch(url)
             .then(response => response.text())
             .then(result => {
-                console.log("✅ Réponse reçue :", result);
                 alert(result);
                 location.reload();
             })
-            .catch(error => console.error("❌ Erreur Fetch :", error));
+            .catch(error => console.error("❌ Erreur : ", error));
     }
 
+    // Récupération et affichage des informations du lead
     let prenom = getParamValue("prenom");
     let nom = getParamValue("nom");
     let rdvDate = getParamValue("rdv");
     let telephone = formatPhoneNumber(getParamValue("telephone"));
     let email = getParamValue("email");
 
-    let nomElement = safeGetElement("nom");
-    let prenomElement = safeGetElement("prenom");
-    let rdvElement = safeGetElement("rdv");
-    let statutElement = safeGetElement("statutRDV");
-
-    if (nomElement) nomElement.textContent += ` ${nom}`;
-    if (prenomElement) prenomElement.textContent += ` ${prenom}`;
-    if (rdvElement) rdvElement.textContent += ` ${rdvDate}`;
-    if (statutElement) statutElement.textContent += ` ${getParamValue("statutRDV")}`;
+    document.getElementById("nom").textContent += ` ${nom}`;
+    document.getElementById("prenom").textContent += ` ${prenom}`;
+    document.getElementById("rdv").textContent += ` ${rdvDate}`;
+    document.getElementById("statutRDV").textContent += ` ${getParamValue("statutRDV")}`;
 
     if (telephone !== "Non renseigné") {
-        let telElement = safeGetElement("telephone");
-        let phoneNumberElement = safeGetElement("phoneNumber");
-        if (telElement) telElement.style.display = "block";
-        if (phoneNumberElement) phoneNumberElement.textContent = telephone;
+        document.getElementById("telephone").style.display = "block";
+        document.getElementById("phoneNumber").textContent = telephone;
     }
 
     if (email !== "Non renseigné") {
-        let emailElement = safeGetElement("email");
-        let emailAddressElement = safeGetElement("emailAddress");
-        if (emailElement) emailElement.style.display = "block";
-        if (emailAddressElement) emailAddressElement.textContent = email;
+        document.getElementById("email").style.display = "block";
+        document.getElementById("emailAddress").textContent = email;
     }
 
-    let appelerBtn = safeGetElement("appelerBtn");
-    if (appelerBtn) {
-        appelerBtn.addEventListener("click", function() {
-            console.log("✅ Bouton APPELER cliqué !");
-        });
-    }
+    // Gestion de l'appel
+    document.getElementById("appelerBtn").addEventListener("click", function() {
+        if (telephone !== "Non renseigné") {
+            if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                window.location.href = `tel:${telephone}`;
+            } else {
+                alert(`📞 Composez ce numéro : ${telephone}`);
+            }
+        } else {
+            alert("📵 Numéro de téléphone non disponible");
+        }
+    });
 
-    let confirmerBtn = safeGetElement("confirmerBtn");
-    if (confirmerBtn) {
-        confirmerBtn.addEventListener("click", function() {
-            console.log("✅ Bouton CONFIRMER cliqué !");
-            updateGoogleSheet("confirmer");
-        });
-    }
+    // Gestion de la confirmation et annulation du RDV
+    document.getElementById("confirmerBtn").addEventListener("click", function() {
+        updateGoogleSheet("confirmer");
+    });
 
-    let annulerBtn = safeGetElement("annulerBtn");
-    if (annulerBtn) {
-        annulerBtn.addEventListener("click", function() {
-            console.log("✅ Bouton ANNULER cliqué !");
-            updateGoogleSheet("annuler");
-        });
-    }
+    document.getElementById("annulerBtn").addEventListener("click", function() {
+        updateGoogleSheet("annuler");
+    });
+
+    // Gestion de l'affichage du menu déroulant et des boutons de la boîte modale
+    const emailModal = document.getElementById("emailModal");
+    const fermerModal = document.getElementById("fermerModal");
+    const emailOptions = document.getElementById("emailOptions"); // Div contenant le select et les boutons
+
+    document.getElementById("envoyerMailBtn").addEventListener("click", function() {
+        if (email !== "Non renseigné") {
+            emailModal.style.display = "flex";
+            emailOptions.style.display = "block"; // Affiche le menu déroulant et les boutons
+        } else {
+            alert("📧 Adresse e-mail non disponible");
+        }
+    });
+
+    fermerModal.addEventListener("click", function() {
+        emailModal.style.display = "none";
+        emailOptions.style.display = "none"; // Cache à nouveau les options après fermeture
+    });
+
+    document.getElementById("envoyerMailFinal").addEventListener("click", function() {
+        let emailType = document.getElementById("emailType").value;
+        let subject, body;
+
+        if (emailType === "confirmation") {
+            subject = `Confirmation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous confirmons votre rendez-vous pour l'estimation de votre bien immobilier.\n\n` +
+                   `📅 **Date et heure :** ${rdvDate}\n📍 **Lieu :** [Adresse ou lien visio si applicable]\n\n` +
+                   "Lors de cet échange, nous affinerons votre estimation en fonction des spécificités de votre bien et des tendances actuelles du marché.\n\n" +
+                   "Si vous avez des documents utiles (plan, acte de propriété, diagnostics...), n’hésitez pas à les préparer.\n\n" +
+                   `📞 **Besoin de nous contacter ?** Vous pouvez nous joindre au ${telephone}.\n\n` +
+                   "À très bientôt !\nGTI Immobilier";
+        } else if (emailType === "annulation") {
+            subject = `Annulation de votre rendez-vous d'estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous vous informons que votre rendez-vous d'estimation prévu le ${rdvDate} a été annulé.\n\n` +
+                   "Si vous souhaitez reprogrammer une nouvelle date, nous restons à votre disposition pour convenir d’un nouveau créneau.\n\n" +
+                   `📅 **Proposer un nouvel horaire ?** Répondez simplement à cet e-mail ou contactez-nous directement au ${telephone}.\n\n` +
+                   "Nous restons à votre écoute pour toute question.\n\nCordialement,\nGTI Immobilier";
+        } else {
+            subject = `Reprogrammons ensemble votre rendez-vous d’estimation - ${prenom} ${nom}`;
+            body = `Bonjour ${prenom},\n\nNous revenons vers vous concernant votre demande d'estimation immobilière.\n\n` +
+                   `Votre rendez-vous initialement prévu le ${rdvDate} ne pourra pas avoir lieu à cette date.\n` +
+                   "Nous souhaitons échanger avec vous afin de **trouver ensemble un créneau qui vous convient**.\n\n" +
+                   `📞 **Pour convenir d’une nouvelle date, contactez-nous :**\n` +
+                   `- **Par téléphone :** ${telephone}\n` +
+                   `- **Par e-mail :** ${email}\n\n` +
+                   "Nous restons à votre disposition pour toute question et nous serions ravis d’échanger avec vous prochainement.\n\n" +
+                   "Cordialement,\nGTI Immobilier";
+        }
+
+        let mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+        if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+            window.location.href = mailtoLink;
+        } else {
+            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(gmailLink, "_blank");
+        }
+
+        emailModal.style.display = "none";
+        emailOptions.style.display = "none"; // Cache à nouveau après envoi
+    });
 });
