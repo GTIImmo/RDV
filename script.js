@@ -21,8 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&row=${rowParam}`;
-
-        fetch(url)
+        
             .then(response => response.text())
             .then(result => {
                 alert(result);
