@@ -1,77 +1,92 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des RDV - GTI Immobilier</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header>
-        <div class="header">
-            <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
-        </div>
-    </header>
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("📢 Le script commence à s'exécuter.");
 
-    <div class="info-text">
-        <h2>📢 Un futur vendeur en ligne a besoin de vous !</h2>
-        <p>
-            Ce rendez-vous a été pris suite à une <strong>estimation en ligne</strong>. 💡 Après quelques échanges, nous lui avons proposé d'affiner son projet.
-        </p>
-    </div>
+    const params = new URLSearchParams(window.location.search);
 
-    <div class="container">
-        <h1>📅 Gestion du Rendez-vous</h1>
-        <div class="lead-info">
-            <div class="lead-column">
-                <p id="nom">👤 <strong>Nom :</strong></p>
-                <p id="prenom">🆔 <strong>Prénom :</strong></p>
-                <p id="rdv">📅 <strong>Date de RDV :</strong></p>
-            </div>
-            <div class="lead-column">
-                <p id="statutRDV">📆 <strong>Statut :</strong></p>
-                <p id="telephone" style="display: none;">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
-                <p id="email" style="display: none;">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
-              
-            </div>
-        </div>
+    function getParamValue(key) {
+        return params.has(key) ? decodeURIComponent(params.get(key).replace(/\+/g, ' ')) : "Non renseigné";
+    }
 
-        <div class="info-text">
-            <p class="important-text">🚀 C'est le moment d'agir !</p>
-            <p>📞 <strong>Contactez-le rapidement</strong> pour confirmer, ajuster ou reprogrammer son rendez-vous.</p>
-        </div>
+    function formatPhoneNumber(number) {
+        if (!number || number === "Non renseigné") return "Non renseigné";
+        let cleaned = number.replace(/[^0-9]/g, "");
+        return cleaned.length === 9 ? "0" + cleaned : cleaned.length === 10 ? cleaned : "Non renseigné";
+    }
 
-        <div class="actions">
-            <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
-            <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
-        </div>
+    function safeGetElement(id) {
+        let elem = document.getElementById(id);
+        console.log(`🔍 Vérification de ${id} :`, elem ? "✅ Trouvé" : "❌ Introuvable");
+        return elem;
+    }
 
-        <div id="emailModal" class="modal">
-            <div class="modal-content">
-                <h2>✉ Sélectionnez un modèle d'e-mail</h2>
-                <div id="emailOptions" style="display: none;">
-                    <select id="emailType">
-                        <option value="confirmation">✅ Confirmer le RDV</option>
-                        <option value="annulation">❌ Annuler le RDV</option>
-                        <option value="reprogrammation">🔄 Reprogrammer le RDV</option>
-                    </select>
-                    <div class="modal-buttons">
-                        <button id="envoyerMailFinal" class="btn btn-send">📩 Envoyer</button>
-                        <button id="fermerModal" class="btn btn-close">❌ Fermer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+    function updateGoogleSheet(action) {
+        if (!confirm("Confirmer cette action ?")) return;
 
-        <div class="question-container">
-            <h2>Avez-vous convenu d’un rendez-vous avec ce lead ?</h2>
-            <div class="question-buttons">
-                <button id="confirmerBtn" class="btn btn-confirm">✅ Oui</button>
-                <button id="annulerBtn" class="btn btn-cancel">❌ Non</button>
-            </div>
-        </div>
-    </div>
+        let idEmailParam = params.get("id_email");
+        if (!idEmailParam) {
+            alert("❌ Erreur : Impossible d'envoyer la modification !");
+            return;
+        }
 
-    <script src="script.js"></script>
-</body>
-</html>
+        let url = `https://script.google.com/macros/s/AKfycbzpN_4u3vKwkW_7J5paCHIxiaImzXjUJFVe-4ablUsKUefwoWK-PRDYByY12JEz9qsV/exec?action=${action}&id_email=${idEmailParam}`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                location.reload();
+            })
+            .catch(error => console.error("❌ Erreur : ", error));
+    }
+
+    let prenom = getParamValue("prenom");
+    let nom = getParamValue("nom");
+    let rdvDate = getParamValue("rdv");
+    let telephone = formatPhoneNumber(getParamValue("telephone"));
+    let email = getParamValue("email");
+
+    let nomElement = safeGetElement("nom");
+    let prenomElement = safeGetElement("prenom");
+    let rdvElement = safeGetElement("rdv");
+    let statutElement = safeGetElement("statutRDV");
+
+    if (nomElement) nomElement.textContent += ` ${nom}`;
+    if (prenomElement) prenomElement.textContent += ` ${prenom}`;
+    if (rdvElement) rdvElement.textContent += ` ${rdvDate}`;
+    if (statutElement) statutElement.textContent += ` ${getParamValue("statutRDV")}`;
+
+    if (telephone !== "Non renseigné") {
+        let telElement = safeGetElement("telephone");
+        let phoneNumberElement = safeGetElement("phoneNumber");
+        if (telElement) telElement.style.display = "block";
+        if (phoneNumberElement) phoneNumberElement.textContent = telephone;
+    }
+
+    if (email !== "Non renseigné") {
+        let emailElement = safeGetElement("email");
+        let emailAddressElement = safeGetElement("emailAddress");
+        if (emailElement) emailElement.style.display = "block";
+        if (emailAddressElement) emailAddressElement.textContent = email;
+    }
+
+    let appelerBtn = safeGetElement("appelerBtn");
+    if (appelerBtn) {
+        appelerBtn.addEventListener("click", function() {
+            if (telephone !== "Non renseigné") {
+                if (/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+                    window.location.href = `tel:${telephone}`;
+                } else {
+                    alert(`📞 Composez ce numéro : ${telephone}`);
+                }
+            } else {
+                alert("📵 Numéro de téléphone non disponible");
+            }
+        });
+    }
+
+    let confirmerBtn = safeGetElement("confirmerBtn");
+    if (confirmerBtn) confirmerBtn.addEventListener("click", function() { updateGoogleSheet("confirmer"); });
+
+    let annulerBtn = safeGetElement("annulerBtn");
+    if (annulerBtn) annulerBtn.addEventListener("click", function() { updateGoogleSheet("annuler"); });
+});
