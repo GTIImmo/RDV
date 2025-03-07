@@ -7,45 +7,52 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <div class="header">
             <img src="https://www.gti-immobilier.fr/application/files/5617/3617/2343/GTI-Logos-Grisblanc.png" alt="GTI Immobilier" class="logo">
         </div>
     </header>
 
+    <!-- 🔥 Introduction punchy -->
     <div class="info-text">
         <h2>📢 Un futur vendeur en ligne a besoin de vous !</h2>
         <p>
-            Ce rendez-vous a été pris suite à une <strong>estimation en ligne</strong>. 💡 Après quelques échanges, nous lui avons proposé d'affiner son projet.
+            Ce rendez-vous a été pris suite à une <strong>estimation en ligne</strong>.  
+            💡 Après quelques échanges, nous lui avons proposé d'affiner son projet.
         </p>
     </div>
 
     <div class="container">
         <h1>📅 Gestion du Rendez-vous</h1>
+
+        <!-- 📋 Infos du lead en 2 colonnes -->
         <div class="lead-info">
             <div class="lead-column">
-                <p id="nom">👤 <strong>Nom :</strong></p>
-                <p id="prenom">🆔 <strong>Prénom :</strong></p>
-                <p id="rdv">📅 <strong>Date de RDV :</strong></p>
-                <p id="idEmail">🆔 <strong>ID Email :</strong></p>
+                <p id="nom">👤 <strong>Nom :</strong> </p>
+                <p id="prenom">🆔 <strong>Prénom :</strong> </p>
+                <p id="rdv">📅 <strong>Date de RDV :</strong> </p>
             </div>
             <div class="lead-column">
-                <p id="statutRDV">📆 <strong>Statut :</strong></p>
+                <p id="statutRDV">📆 <strong>Statut :</strong> </p>
                 <p id="telephone" style="display: none;">📞 <strong>Téléphone :</strong> <span id="phoneNumber"></span></p>
                 <p id="email" style="display: none;">📧 <strong>Email :</strong> <span id="emailAddress"></span></p>
             </div>
         </div>
 
+        <!-- 🔥 Rappel après les infos du lead -->
         <div class="info-text">
             <p class="important-text">🚀 C'est le moment d'agir !</p>
             <p>📞 <strong>Contactez-le rapidement</strong> pour confirmer, ajuster ou reprogrammer son rendez-vous.</p>
         </div>
 
+        <!-- 🎯 Actions principales -->
         <div class="actions">
             <button id="appelerBtn" class="btn btn-call">📞 Appeler</button>
             <button id="envoyerMailBtn" class="btn btn-email">📧 Envoyer un mail</button>
         </div>
 
+        <!-- 📧 Boîte de dialogue pour choisir un email (cachée au début) -->
         <div id="emailModal" class="modal">
             <div class="modal-content">
                 <h2>✉ Sélectionnez un modèle d'e-mail</h2>
@@ -63,6 +70,7 @@
             </div>
         </div>
 
+        <!-- ✅❌ Nouvelle section moderne pour la question -->
         <div class="question-container">
             <h2>Avez-vous convenu d’un rendez-vous avec ce lead ?</h2>
             <div class="question-buttons">
